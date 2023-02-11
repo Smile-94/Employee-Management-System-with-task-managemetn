@@ -24,7 +24,7 @@
                             {{leaves.form.date |add_class:"form-control"}}
                         </div>
                       </div>
-                  <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                  <button class="btn btn-primary ms-2" type="submit">Search</button>
                 </form>
               </div>
             <table class="table">
@@ -50,9 +50,9 @@
                                 <td>{{leave.date}}</td>
                                 <td>{{leave.ticket_id}}</td>
                                 <td>
-                                    <a class="btn btn-primary" href="{% url 'reception:sortleave_detail' leave.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
-                                    <a class="btn btn-success" href="{% url 'reception:sortleave_update' leave.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a class="btn btn-danger" href="{% url 'reception:sortleave_delete' leave.id %}"" role="button" ><i class="fa-solid fa-trash"></i></a>
+                                    <a class="btn btn-primary" href="{% url 'reception:sortleave_detail' leave.id %}" role="button">View</a>
+                                    <a class="btn btn-success" href="{% url 'reception:sortleave_update' leave.id %}" role="button">Edit</a>
+                                    <a class="btn btn-danger" href="{% url 'reception:sortleave_delete' leave.id %}"" role="button" >Delete</a>
                                 </td>
                             </tr>  
                         {% endfor %}    

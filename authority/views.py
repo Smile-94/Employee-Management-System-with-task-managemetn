@@ -353,13 +353,17 @@ class UpdateOfficeTimeView(LoginRequiredMixin, UpdateView):
 
 class AddPayrollMonthView(LoginRequiredMixin, CreateView):
     model = PayrollMonth
+    queryset =PayrollMonth.objects.filter(active_status=True).order_by('-id')
     form_class = PayrollMonthForm
+    filterset_class = PayrollMonthListFilter
     template_name = 'authority/payroll_month.html'
     success_url = reverse_lazy('authority:payrollmonth_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Payroll Month"
+        context["months"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+
         return context
     
     
@@ -371,26 +375,16 @@ class AddPayrollMonthView(LoginRequiredMixin, CreateView):
         messages.error(self.request, "Something wrong try again")
         return super().form_invalid(form)
 
-class PayrollMonthListView(ListView):
-    model=PayrollMonth
-    filterset_class = PayrollMonthListFilter
-    template_name= 'authority/payroll_month_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Payroll Month List" 
-        context["months"] = self.filterset_class(self.request.GET, queryset=self.queryset)
-        return context
-
 class UpdatePayrollMonthView(LoginRequiredMixin, UpdateView):
     model=PayrollMonth
     form_class=PayrollMonthForm
     template_name='authority/payroll_month.html'
-    success_url= reverse_lazy('authority:payrollmonth_list')
+    success_url= reverse_lazy('authority:add_payrollmonth')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Update Payroll Month" 
+        context["title"] = "Update Payroll Month"
+        context["updated"] = True
         return context
     
     def form_valid(self, form):
@@ -416,6 +410,7 @@ class DeletePayrollMonthView(LoginRequiredMixin, DeleteView):
         self.object.save()
         return redirect(self.success_url)
 
+# Festival Bonus add,update, delete
 
 class FestivalBonusView(LoginRequiredMixin, CreateView):
     model = FestivalBonus
@@ -426,6 +421,7 @@ class FestivalBonusView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Festival Bonus" 
+        context["festivals"] = FestivalBonus.objects.filter(is_active=True)
         return context
     
     def form_valid(self, form):
@@ -435,6 +431,29 @@ class FestivalBonusView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Festival not added try again!")
         return super().form_invalid(form)
+
+
+class FestivalBonusUpdateView(LoginRequiredMixin, UpdateView):
+    model = FestivalBonus
+    form_class = FestivalBonusForm
+    template_name = 'authority/festival_bonus.html'
+    success_url = reverse_lazy('authority:festival_bonus')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Festival Bonus" 
+        context["updated"] = True 
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Festival Bonus Updated Successfully')
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, 'Festival Bonus not updated try again !')
+        return super().form_invalid(form)
+    
+
     
     
     

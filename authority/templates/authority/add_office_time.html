@@ -20,7 +20,7 @@
                 {{form.office_end |add_class:"form-control" }}
             </div>
             <div class="col mt-4">
-                <button type="submit" class="btn btn-lg btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
@@ -42,8 +42,8 @@
                 <td>{{time.office_start}}</td>
                 <td> {{time.office_end}} </td>
                 <td>
-                    <a class="btn btn-success" href="{% url 'authority:update_officetime' time.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                    <a class="btn btn-success" href="{% url 'authority:update_officetime' time.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+                    <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i>Delete</a>
                 </td>
               </tr>
                 

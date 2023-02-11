@@ -12,13 +12,13 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                  <img src=" {{profile.photo.url}} " alt="Admin" class="rounded-circle" width="250" height="250">
+                  <img src=" {{profile.photo.url}} " alt="Admin" class="rounded-square" width="250" height="250">
                   <div class="mt-3">
                     <h4> {{profile.first_name}} {{profile.last_name}} </h4>
                     <p class="text-secondary mb-1">{{employee_info.position.designation}}</p>
                     <p class="text-muted font-size-sm">{{employee_info.position.department}} </p>
-                    <button class="btn btn-primary">Download Details</button>
-                    <button class="btn btn-outline-primary">Print Details</button>
+                    <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i></button>
+                    <button class="btn btn-outline-primary"><i class="fa-solid fa-print"></i></button>
                   </div>
                 </div>
               </div>

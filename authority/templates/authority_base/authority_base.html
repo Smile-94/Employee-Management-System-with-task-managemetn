@@ -40,10 +40,10 @@
     <div class="container-fluid position-relative bg-white d-flex p-0">
         
         <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
+        <div class="sidebar bg-info pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="{% url 'authority:authority' %}" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>PSM</h3>
+                    <h3 class="text-info"><i class="fa-solid fa-dollar-sign text-danger"></i>Payroll</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -58,25 +58,17 @@
                 <div class="navbar-nav w-100">
                     <a href="{% url 'authority:authority' %}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <div class="nav-item dropdown">
-                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-plus"></i>Employee</a>
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-plus"></i>Manage User</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'authority:add_employee' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2"></i>Create Account</a>
-                            <a href="{% url 'authority:employee_list' %}" class="dropdown-item"><i class="fa-solid fa-address-book me-2"></i>Employee List</a>
+                            <a href="{% url 'authority:add_employee' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2"></i>User Employee</a>
+                            <a href="{% url 'authority:employee_list' %}" class="dropdown-item"><i class="fa-solid fa-address-book me-2"></i>User Employee List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-dollar-sign"></i></i>Salary</a>
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hand-holding-dollar"></i>Payroll Settings</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'authority:add_employee' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2"></i>Create Account</a>
-                            <a href="{% url 'authority:employee_list' %}" class="dropdown-item"><i class="fa-solid fa-address-book me-2"></i>Employee List</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hand-holding-dollar"></i></i></i>Payroll Settings</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'authority:add_payrollmonth' %}" class="dropdown-item"><i class="fa-solid fa-plus me-2"></i>Add Month</a>
-                            <a href="{% url 'authority:payrollmonth_list' %}" class="dropdown-item"><i class="fa-solid fa-bars me-2"></i></i>Month List</a>
-                            <a href="{% url 'authority:payrollmonth_list' %}" class="dropdown-item"><i class="fa-solid fa-bars me-2"></i></i>Festival Bonus</a>
+                            <a href="{% url 'authority:add_payrollmonth' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Payroll Month</a>
+                            <a href="{% url 'authority:festival_bonus' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Festival Bonus</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -103,9 +95,6 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
-                </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -142,21 +131,7 @@
             <!-- Blank End -->
 
 
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Payroll Management System</a>, All Right Reserved. 
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://iubat.edu/">IUBAT</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer End -->
+            
         </div>
         <!-- Content End -->
 
