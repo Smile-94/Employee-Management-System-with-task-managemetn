@@ -5,6 +5,7 @@ from datetime import datetime
 from authority.models import OfficeTime
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
+from authority.models import LeaveApplication
 
 
 
@@ -35,3 +36,12 @@ class FestivalBonusForm(forms.ModelForm):
     class Meta:
         model=FestivalBonus
         exclude=('is_active',)
+
+
+class LeaveApplicationForm(forms.ModelForm):
+    leave_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    leave_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = LeaveApplication
+        fields =('leave_from','leave_to','employee_id','leave_description')

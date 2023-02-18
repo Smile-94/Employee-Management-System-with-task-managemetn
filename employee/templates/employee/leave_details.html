@@ -1,0 +1,54 @@
+{% extends 'employee_base/base_employee.html' %}
+{% load static %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+
+{% block body %}
+<div class="col-sm-12 col-xl-12">
+    <div class="bg-white rounded h-100 p-4">
+        <h5 class="mb-4">Leave Details</h5>
+        <table class="table table-striped table-bordered">
+            <thead class="table-secondary">
+                <tr>
+                    <th scope="col">Fields</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Employee Name</td>
+                    <td> {{leave.application_of.profile.first_name}}  {{leave.application_of.profile.last_name}}</td>
+                </tr>
+                <tr>
+                    <td>Employee ID</td>
+                    <td> {{leave.employee_id}} </td>
+                </tr>
+                <tr>
+                    <td>Leave From</td>
+                    <td> {{leave.leave_from}} </td>
+                </tr>
+                <tr>
+                    <td>Leave To</td>
+                    <td> {{leave.leave_to}} </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="card">
+            <div class="card-header bg-primary">
+                <h6 class="text-white">Leave For</h6>
+            </div>
+            <div class="card-body">
+              
+              <p class="card-text"> {{leave.leave_description}} </p>
+            </div>
+        </div>
+        <h6 class="my-4">Approved/Reject By</h6>
+        <img src=" {{leave.approvied_by.employee_info.signature.url}} " alt="" height="120" width="100">
+        <p>{{leave.approvied_by.profile.first_name}} {{leave.approvied_by.profile.last_name}}</p>
+    </div>
+</div>
+    
+{% endblock body %}
+    
