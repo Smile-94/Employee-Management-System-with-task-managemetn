@@ -1,54 +1,46 @@
 from django.urls import path
 
 # views
-from authority.views import AdminView
-from authority.views import AddDesignationView
-from authority.views import DesignationListView
-from authority.views import DesignationUpdateView
-from authority.views import DesignationDeleteView
-from authority.views import AddEmpolyeeView
-from authority.views import EmployeeListView
-from authority.views import EditEmployeeView
-from authority.views import EditEmployeeAddressView
-from authority.views import EditEmployeeSalaryView
-from authority.views import EmployeeDetailView
-from authority.views import AddOfficeTimeView
-from authority.views import UpdateOfficeTimeView
+from authority.views import authority_main
+from authority.views import manage_employee
+from authority.views import admin_settings
+from authority.views import payroll_settings
 
-# Payroll Months
-from authority.views import AddPayrollMonthView
-from authority.views import UpdatePayrollMonthView
-
-# Festival Bonus
-from authority.views import FestivalBonusView
-from authority.views import FestivalBonusUpdateView
 
 app_name = 'authority'
 
+# authority main
 urlpatterns = [
-    path('authority/', AdminView.as_view(), name='authority'),
-    path('add-employee/', AddEmpolyeeView.as_view(), name='add_employee'),
-    path('employee-list/', EmployeeListView.as_view(), name='employee_list'),
-    path('employee-details/<int:pk>/', EmployeeDetailView.as_view(), name='employee_details'),
-    path('edit_employee/<int:pk>/', EditEmployeeView.as_view(), name='edit_employee'),
-    path('edit_address/<int:pk>/', EditEmployeeAddressView.as_view(), name='edit_address'),
-    path('edit_salary/<int:pk>/', EditEmployeeSalaryView.as_view(), name='edit_salary'),
-    path('add-desgnation/', AddDesignationView.as_view(), name='add_designation'),
-    path('designation-list/', DesignationListView.as_view(), name='designation_list'),
-    path('update-designation/<int:pk>/', DesignationUpdateView.as_view(), name='update_designation'),
-    path('delete-designation/<int:pk>/', DesignationDeleteView.as_view(), name='delete_designation'),
-    path('add-office-time/', AddOfficeTimeView.as_view(), name='add_officetime'),
-    path('update-office-time/<int:pk>/', UpdateOfficeTimeView.as_view(), name='update_officetime')
+    path('authority/', authority_main.AdminView.as_view(), name='authority'),
 ]
+
+#manage employee urls
+urlpatterns += [
+    path('add-employee/', manage_employee.AddEmpolyeeView.as_view(), name='add_employee'),
+    path('employee-list/', manage_employee.EmployeeListView.as_view(), name='employee_list'),
+    path('employee-details/<int:pk>/', manage_employee.EmployeeDetailView.as_view(), name='employee_details'),
+    path('edit_employee/<int:pk>/', manage_employee.EditEmployeeView.as_view(), name='edit_employee'),
+    path('edit_address/<int:pk>/', manage_employee.EditEmployeeAddressView.as_view(), name='edit_address'),
+    path('edit_salary/<int:pk>/', manage_employee.EditEmployeeSalaryView.as_view(), name='edit_salary'),
+]
+
 
 # Add, Update, Delete Payroll Months
 urlpatterns += [
-    path('add-payroll-month/', AddPayrollMonthView.as_view(), name='add_payrollmonth'),
-    path('update-payroll-month/<int:pk>/', UpdatePayrollMonthView.as_view(), name='update_payrollmonth'), 
+    path('add-payroll-month/', payroll_settings.AddPayrollMonthView.as_view(), name='add_payrollmonth'),
+    path('update-payroll-month/<int:pk>/', payroll_settings.UpdatePayrollMonthView.as_view(), name='update_payrollmonth'), 
+    path('festival-bonus/', payroll_settings.FestivalBonusView.as_view(), name='festival_bonus'),
+    path('festival-update/<int:pk>/', payroll_settings.FestivalBonusUpdateView.as_view(), name='update_festival'),
 ]
 
-# Add , Update, delte Festival Bonus
+
+# admin settings
 urlpatterns += [
-    path('festival-bonus/', FestivalBonusView.as_view(), name='festival_bonus'),
-    path('festival-update/<int:pk>/', FestivalBonusUpdateView.as_view(), name='update_festival'),
+    path('add-desgnation/', admin_settings.AddDesignationView.as_view(), name='add_designation'),
+    path('designation-list/', admin_settings.DesignationListView.as_view(), name='designation_list'),
+    path('update-designation/<int:pk>/', admin_settings.DesignationUpdateView.as_view(), name='update_designation'),
+    path('delete-designation/<int:pk>/', admin_settings.DesignationDeleteView.as_view(), name='delete_designation'),
+    path('add-office-time/', admin_settings.AddOfficeTimeView.as_view(), name='add_officetime'),
+    path('update-office-time/<int:pk>/', admin_settings.UpdateOfficeTimeView.as_view(), name='update_officetime')
 ]
+
