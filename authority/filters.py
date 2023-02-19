@@ -4,6 +4,7 @@ from datetime import datetime
 
 from accounts.models import User
 from authority.models import PayrollMonth
+from authority.models import Task
 
 
 class EmployeeListFilter(django_filters.FilterSet):
@@ -14,6 +15,16 @@ class EmployeeListFilter(django_filters.FilterSet):
         fields = {
             'email': {'exact'},
         }
+
+
+class TaskFilter(django_filters.FilterSet):
+    task_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Task ID'}))
+    dadeline = django_filters.DateFilter(widget=forms.DateInput(attrs={'type': 'date'}))
+    completion_date = django_filters.DateFilter(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = Task
+        fields = ('task_id', 'dadeline', 'completion_date')
 
 
 class PayrollMonthListFilter(django_filters.FilterSet):

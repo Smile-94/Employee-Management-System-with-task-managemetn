@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Models 
@@ -56,14 +57,14 @@ class LeaveApplication(models.Model):
 
 class Task(models.Model):
     create_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='task')
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'task_assigned')
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'task_assigned',null=True)
     task_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
     created_at = models.DateField(auto_now=True)
     dadeline = models.DateField()
     heading = models.CharField(max_length=100)
     description = models.TextField()
-    task_message = models.TextField()
-    completion_report = models.TextField()
+    task_message = models.TextField(null=True)
+    completion_report = models.TextField(null=True)
     completion_status = models.BooleanField(default=False)
     completion_date = models.DateField(null=True)
     is_active = models.BooleanField(default=True)

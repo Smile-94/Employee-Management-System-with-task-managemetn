@@ -5,6 +5,7 @@ from authority.views import authority_main
 from authority.views import manage_employee
 from authority.views import admin_settings
 from authority.views import payroll_settings
+from authority.views import manage_task
 
 
 app_name = 'authority'
@@ -32,6 +33,14 @@ urlpatterns += [
     path('festival-bonus/', payroll_settings.FestivalBonusView.as_view(), name='festival_bonus'),
     path('festival-update/<int:pk>/', payroll_settings.FestivalBonusUpdateView.as_view(), name='update_festival'),
 ]
+
+# manage task
+urlpatterns += [
+    path('add-task/', manage_task.TaskCreateView.as_view(), name='add_task'),
+    path('update-task/<int:pk>/', manage_task.TaskUpdateView.as_view(), name='update_task'),
+    path('delete-task/<int:pk>/', manage_task.TaskDeleteView.as_view(), name='delete_task'),
+]
+
 
 
 # admin settings
