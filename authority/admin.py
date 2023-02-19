@@ -5,6 +5,8 @@ from authority.models import OfficeTime
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
 from authority.models import LeaveApplication
+from authority.models import Task
+from authority.models import TaskFeedback
 
 
 # Register your models here.
@@ -26,4 +28,18 @@ class SetOfficeTimeAdmin(admin.ModelAdmin):
 @admin.register(LeaveApplication)
 class LeaveApplication(admin.ModelAdmin):
     list_display=('application_of','approvied_by','leave_from','leave_to','approved_status')
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('create_by','assigned_to','task_id','created_at','dadeline','completion_status')
+    search_fields = ('create_by','assigned_to','task_id')
+    list_filter = ('completion_status', 'is_active')
+    list_per_page = 50
+
+
+@admin.register(TaskFeedback)
+class TaskFeedbackAdmin(admin.ModelAdmin):
+    list_display = ('feedback_of', 'feedback_by', 'feedback_at')
+    list_per_page = 50
 

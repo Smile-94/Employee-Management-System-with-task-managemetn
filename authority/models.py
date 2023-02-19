@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Models 
@@ -51,4 +52,37 @@ class LeaveApplication(models.Model):
     declined_status = models.BooleanField(default=False)
     declined_message = models.TextField(null=True)
     is_active = models.BooleanField(default=True)
+
+
+class Task(models.Model):
+    create_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='task')
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'task_assigned')
+    task_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    created_at = models.DateField(auto_now=True)
+    dadeline = models.DateField()
+    heading = models.CharField(max_length=100)
+    description = models.TextField()
+    task_message = models.TextField()
+    completion_report = models.TextField()
+    completion_status = models.BooleanField(default=False)
+    completion_date = models.DateField(null=True)
+    is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.task_id:
+            year = str(datetime.date.today().year)[2:4]
+            month = str(datetime.date.today().month)
+            day = str(datetime.date.today().day)
+            self.task_id = 'TS'+year+month+day+str(self.pk).zfill(4)
+            self.save()
+
+
+class TaskFeedback(models.Model):
+    feedback_of = models.ForeignKey(Task, on_delete=models.CASCADE,related_name='feed_back')
+    feedback_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'feedback_by')
+    feedback_at = models.DateTimeField(auto_now=True)
+    feedback_heading = models.CharField(max_length=100, null=True)
+    modified_at = models.DateTimeField(auto_now_add=False)
+    description = models.TextField()
 

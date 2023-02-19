@@ -6,6 +6,8 @@ from authority.models import OfficeTime
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
 from authority.models import LeaveApplication
+from authority.models import Task
+from authority.models import TaskFeedback
 
 
 
@@ -45,3 +47,29 @@ class LeaveApplicationForm(forms.ModelForm):
     class Meta:
         model = LeaveApplication
         fields =('leave_from','leave_to','employee_id','leave_description')
+
+class TaskForm(forms.ModelForm):
+    dadeline = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = Task
+        fields = ('dadeline','heading','description')
+
+class TaskAssignedForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ('assigned_to','task_message')
+
+class TaskCompletionForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ('completion_report',)
+
+
+class TaskFeedbackForm(forms.ModelForm):
+
+    class Meta:
+        model = TaskFeedback
+        fields = ('description', 'feedback_heading')
