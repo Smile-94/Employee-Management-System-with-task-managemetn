@@ -16,7 +16,7 @@ from employee.models import EmployeeInfo
 
 # Models Rectiption
 from reciption.models import Attendance
-from reciption.models import SortLeave
+
 
 
 # Create your views here.
@@ -32,6 +32,5 @@ class AdminView(LoginRequiredMixin, TemplateView):
         context["total_employee"] = total_employee
         context["attend_today"] = attend_today
         context["absence_today"] = (total_employee-attend_today)
-        context["Sort_leave"] = SortLeave.objects.filter(date=date.today()).count()
         context["late_present"] = Attendance.objects.filter(date=date.today(),late_present__gt=timedelta(minutes=30)).count() 
         return context

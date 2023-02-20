@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
+from django.views.generic import DetailView
 
 
 # models 
@@ -48,6 +49,9 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Task not added try again")
         return super().form_invalid(form)
+
+class TaskDetailView(DetailView):
+    pass
 
 class TaskUpdateView(UpdateView):
     model = Task

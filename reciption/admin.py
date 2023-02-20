@@ -2,7 +2,6 @@ from django.contrib import admin
 
 # Models
 from reciption.models import Attendance
-from reciption.models import SortLeave
 
 # Register your models here.
 
@@ -14,8 +13,3 @@ class AttendanceAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 
-@admin.register(SortLeave)
-class SortLeaveAdmin(admin.ModelAdmin):
-    list_display = ('ticket_for', 'issued_by', 'ticket_id', 'employee_id', 'date')
-    search_fields = ('ticket_id', 'employee_id')
-    list_per_page = 50

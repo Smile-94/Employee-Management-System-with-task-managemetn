@@ -26,29 +26,3 @@ class Attendance(models.Model):
 
     def __str__(self):
         return str(self.attendance_of)
-
-class SortLeave(models.Model):
-    ticket_for=models.ForeignKey(EmployeeInfo, on_delete=models.CASCADE, related_name='sort_leave')
-    issued_by=models.ForeignKey(User, on_delete=models.CASCADE)
-    ticket_id=models.CharField(max_length=50)
-    employee_id=models.CharField(max_length=50)
-    date=models.DateField(auto_now=False, auto_now_add=False)
-    leave_hour = models.DurationField()
-    outing_time=models.TimeField(auto_now=False, auto_now_add=False)
-    entering_time=models.TimeField(auto_now=False, auto_now_add=False,blank=True, null=True)
-    description=models.TextField(blank=True)
-    late_entry=models.DurationField(blank=True, null=True)
-    active_status=models.BooleanField(default=True)
-
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.ticket_id:
-            month=str(datetime.date.today().month)
-            day=str(datetime.date.today().day)
-            self.ticket_id = 'TL'+month+day+str(self.pk).zfill(4)
-            self.save()
-
-    def __str__(self):
-        return str(self.ticket_for)
-
