@@ -54,19 +54,17 @@ class LeaveApplication(models.Model):
     declined_message = models.TextField(null=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return str(f"{self.application_of}'s Application ")
+
 
 class Task(models.Model):
     create_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='task')
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'task_assigned',null=True)
     task_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
     created_at = models.DateField(auto_now=True)
     dadeline = models.DateField()
     heading = models.CharField(max_length=100)
     description = models.TextField()
-    task_message = models.TextField(null=True)
-    completion_report = models.TextField(null=True)
-    completion_status = models.BooleanField(default=False)
-    completion_date = models.DateField(null=True)
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
@@ -77,10 +75,24 @@ class Task(models.Model):
             day = str(datetime.date.today().day)
             self.task_id = 'TS'+year+month+day+str(self.pk).zfill(4)
             self.save()
+    
+    def __str__(self):
+        return self.task_id+", "+self.heading[:30]
+
+
+class TaskAssigned(models.Model):
+    task_of = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='assigned_task')
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_to')
+    assigned_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_by')
+    task_message = models.TextField(null=True)
+    completion_report = models.TextField(null=True)
+    completion_status = models.BooleanField(default=False)
+    completion_date = models.DateField(null=True)
+    is_active = models.BooleanField(default=False)
 
 
 class TaskFeedback(models.Model):
-    feedback_of = models.ForeignKey(Task, on_delete=models.CASCADE,related_name='feed_back')
+    feedback_of = models.ForeignKey(TaskAssigned, on_delete=models.CASCADE,related_name='feed_back')
     feedback_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'feedback_by')
     feedback_at = models.DateTimeField(auto_now=True)
     feedback_heading = models.CharField(max_length=100, null=True)

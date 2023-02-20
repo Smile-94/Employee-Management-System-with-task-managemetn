@@ -6,6 +6,7 @@ from authority.models import PayrollMonth
 from authority.models import FestivalBonus
 from authority.models import LeaveApplication
 from authority.models import Task
+from authority.models import TaskAssigned
 from authority.models import TaskFeedback
 
 
@@ -32,9 +33,16 @@ class LeaveApplication(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('create_by','assigned_to','task_id','created_at','dadeline','completion_status')
-    search_fields = ('create_by','assigned_to','task_id')
-    list_filter = ('completion_status', 'is_active')
+    list_display = ('create_by','task_id','created_at','dadeline')
+    search_fields = ('create_by','task_id')
+    list_filter = ('is_active',)
+    list_per_page = 50
+
+
+@admin.register(TaskAssigned)
+class TaskAssignedAdmin(admin.ModelAdmin):
+    list_display = ('task_of', 'assigned_to','assigned_by', 'completion_status')
+    search_fields = ('assigned_to','assigned_by')
     list_per_page = 50
 
 

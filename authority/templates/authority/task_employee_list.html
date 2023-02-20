@@ -1,0 +1,61 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <h6 class="mb-4">Employee List</h6>
+    <div class="col-md-12 mb-4">
+      <form class="d-flex">
+        <div class="row">
+            <div class="col ">
+                {{employees.form.info_of | add_class:"form-control" }}
+            </div>
+            <div class="col mb-3">
+                {{employees.form.employee_id | add_class:"form-control"}}
+            </div>
+            <div class="col mb-3">
+                <button class="btn btn-primary ms-2" type="submit">Search</button>
+            </div>
+        </div>
+       
+      </form>
+    </div>
+    
+    <table class="table table table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">Email</th>
+              <th scope="col">Employee ID</th>
+              <th scope="col">Designation</th>
+              <th scope="col">Department</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if employees %} 
+                {% for employee in employees.qs %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{employee.info_of}} </td>
+                    <td> {{employee.employee_id}} </td>
+                    <td>{{employee.position.designation}}</td>
+                    <td>{{employee.position.department}}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{% url 'authority:employee_details' employee.info_of.id %}" role="button">View</a>
+                        <a class="btn btn-primary" href="#" role="button">Task</a>
+                        <a class="btn btn-primary" href="{% url 'authority:task_assign' employee.id %}" role="button">Assign Task</a>
+                    </td>
+                  </tr>
+                {% endfor %}     
+            {% endif %}
+            </tbody>      
+      </table>
+</div>
+    
+{% endblock body %}
+    

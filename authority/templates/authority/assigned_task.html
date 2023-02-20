@@ -1,0 +1,43 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="container-fluid pt-4 px-4 m-auto">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Assigned Task</h6>
+                <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="mb-3">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Task</label>
+                                {{form.task_of|add_class:"form-select" | append_attr:"placeholder:e.g Jon"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Task Message</label>
+                                {{form.task_message | add_class:"form-control" }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mx-auto">
+                        <a class="btn btn-lg  btn-primary px-5" href="{% url 'authority:task_employee_list' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+                        <button type="submit" class="btn btn-lg  btn-primary px-5">Submit</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>    
+    </div>
+</div>
+<!-- Form End -->
+    
+{% endblock body %}
+    

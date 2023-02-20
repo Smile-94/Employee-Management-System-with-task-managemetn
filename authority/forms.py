@@ -7,6 +7,7 @@ from authority.models import PayrollMonth
 from authority.models import FestivalBonus
 from authority.models import LeaveApplication
 from authority.models import Task
+from authority.models import TaskAssigned
 from authority.models import TaskFeedback
 
 
@@ -58,14 +59,8 @@ class TaskForm(forms.ModelForm):
 class TaskAssignedForm(forms.ModelForm):
 
     class Meta:
-        model = Task
-        fields = ('assigned_to','task_message')
-
-class TaskCompletionForm(forms.ModelForm):
-
-    class Meta:
-        model = Task
-        fields = ('completion_report',)
+        model = TaskAssigned
+        fields = ('task_of','task_message',)
 
 
 class TaskFeedbackForm(forms.ModelForm):
