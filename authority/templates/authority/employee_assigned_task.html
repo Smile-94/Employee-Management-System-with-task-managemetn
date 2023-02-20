@@ -1,0 +1,48 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <h6 class="mb-4">Assigned Task</h6>
+    <table class="table table table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">Task</th>
+              <th scope="col">Assigned By</th>
+              <th scope="col">Task ID</th>
+              <th scope="col">Completion Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if tasks %} 
+                {% for task in tasks %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{task.task_of.heading}} </td>
+                    <td> {{task.assigned_by.profile.first_name}} {{task.assigned_by.profile.last_name}} ({{task.assigned_by.employee_info.position.designation}})  </td>
+                    <td>{{task.task_of.task_id}}</td>
+                    <td>
+                        {% if completion_status %}
+                            Done
+                        
+                        {% else %}
+                           Running
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="#" role="button">View</a>
+                    </td>
+                  </tr>
+                {% endfor %}     
+            {% endif %}
+            </tbody>      
+      </table>
+</div>
+    
+{% endblock body %}
+    

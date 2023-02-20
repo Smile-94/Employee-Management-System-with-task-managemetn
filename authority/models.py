@@ -88,7 +88,10 @@ class TaskAssigned(models.Model):
     completion_report = models.TextField(null=True)
     completion_status = models.BooleanField(default=False)
     completion_date = models.DateField(null=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.task_of.heading[:20])+str(self.assigned_to)
 
 
 class TaskFeedback(models.Model):

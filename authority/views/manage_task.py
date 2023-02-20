@@ -147,6 +147,26 @@ class AssignTaskView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Something went wrong try again!")
         return super().form_invalid(form)
+
+class EmployeeAssignedTaskListView(LoginRequiredMixin, ListView):
+
+    Model = TaskAssigned
+    queryset = TaskAssigned.objects.filter(is_active=True).order_by("-id")
+    template_name = 'authority/employee_assigned_task.html'
+    
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        queryset = super().get_queryset().filter(assigned_to=pk)
+        return queryset
+        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Employee Assigned Task" 
+        context["tasks"] = self.get_queryset() 
+        return context
+    
     
     
 

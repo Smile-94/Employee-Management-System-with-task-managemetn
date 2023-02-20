@@ -47,7 +47,7 @@
                     <td>{{employee.position.department}}</td>
                     <td>
                         <a class="btn btn-primary" href="{% url 'authority:employee_details' employee.info_of.id %}" role="button">View</a>
-                        <a class="btn btn-primary" href="#" role="button">Task</a>
+                        <a class="btn btn-primary" href="{% url 'authority:employee_assigned_task' employee.info_of.id %}" role="button">Task</a>
                         <a class="btn btn-primary" href="{% url 'authority:task_assign' employee.id %}" role="button">Assign Task</a>
                     </td>
                   </tr>
