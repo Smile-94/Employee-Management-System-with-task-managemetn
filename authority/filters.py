@@ -5,6 +5,7 @@ from datetime import datetime
 from accounts.models import User
 from authority.models import PayrollMonth
 from authority.models import Task
+from authority.models import TaskAssigned
 from employee.models import EmployeeInfo
 
 
@@ -42,6 +43,29 @@ class TaskEmployeeFilter(django_filters.FilterSet):
         if info_of_value:
             user = User.objects.get(email=info_of_value)
             queryset = queryset.filter(info_of=user.id)
+
+        if employee_id_value:
+            employee_info = EmployeeInfo.objects.get(employee_id=employee_id_value)
+            queryset = queryset.filter(employee_id=employee_info.employee_id)
+            
+        return queryset
+
+class TaskAssignedFileter(django_filters.FilterSet):
+    task_of = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Task ID'}))
+    assigned_to = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
+    
+    class Meta:
+        model = TaskAssigned
+        fields = ('task_of', 'assigned_to', 'completion_status')
+    
+
+    def filter_queryset(self, queryset):
+        task_of_value = self.data.get('task_of')
+        employee_id_value = self.data.get('employee_id')
+
+        if task_of_value:
+            task_id = Task.objects.get(task_id=task_of_value)
+            queryset = queryset.filter(task_of=task_id)
 
         if employee_id_value:
             queryset = queryset.filter(employee_id=employee_id_value)

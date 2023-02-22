@@ -26,6 +26,7 @@ from authority.forms import TaskAssignedForm
 # Filters 
 from authority.filters import TaskFilter
 from authority.filters import TaskEmployeeFilter
+from authority.filters import TaskAssignedFileter
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -166,6 +167,38 @@ class EmployeeAssignedTaskListView(LoginRequiredMixin, ListView):
         context["title"] = "Employee Assigned Task" 
         context["tasks"] = self.get_queryset() 
         return context
+
+class AssignedTaskView(LoginRequiredMixin, ListView):
+    model = TaskAssigned
+    queryset = TaskAssigned.objects.filter(is_active=True).order_by('-id')
+    filterset_class = TaskAssignedFileter
+    context_object_name = 'employees'
+    template_name = 'authority/assigned_task_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Assigned Task List"
+        context["assigned_task"] = self.filterset_class(self.request.GET, queryset=self.queryset) 
+        return context
+    
+
+class DeleteAssignedTaskView(LoginRequiredMixin, DeleteView):
+    model = TaskAssigned
+    context_object_name = 'task'
+    template_name = 'authority/delete_assigned_task.html'
+    success_url = reverse_lazy('authority:assigned_task')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Assigned  Task" 
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)
+    
     
     
     
