@@ -62,7 +62,7 @@ class Task(models.Model):
     create_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='task')
     task_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
     created_at = models.DateField(auto_now=True)
-    dadeline = models.DateField()
+    deadline = models.DateField()
     heading = models.CharField(max_length=100)
     description = models.TextField()
     is_active = models.BooleanField(default=True)
@@ -91,7 +91,7 @@ class TaskAssigned(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return str(self.task_of.heading[:20])+str(self.assigned_to)
+        return str(self.task_of.heading[:20])+", "+str(self.assigned_to)
 
 
 class TaskFeedback(models.Model):
@@ -99,6 +99,9 @@ class TaskFeedback(models.Model):
     feedback_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'feedback_by')
     feedback_at = models.DateTimeField(auto_now=True)
     feedback_heading = models.CharField(max_length=100, null=True)
-    modified_at = models.DateTimeField(auto_now_add=False)
+    modified_at = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
+
+    def __str__(self):
+        return str(self.feedback_of)
 

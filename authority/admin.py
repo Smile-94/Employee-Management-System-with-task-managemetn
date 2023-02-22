@@ -33,7 +33,7 @@ class LeaveApplication(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('create_by','task_id','created_at','dadeline')
+    list_display = ('create_by','task_id','created_at','deadline')
     search_fields = ('create_by','task_id')
     list_filter = ('is_active',)
     list_per_page = 50

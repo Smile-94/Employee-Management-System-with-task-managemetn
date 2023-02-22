@@ -1,0 +1,167 @@
+{% extends 'employee_base/base_employee.html' %}
+{% load static %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+
+{% block body %}
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            <h4 class="mb-4">Task Details</h4>
+        </div>
+        <div class="col">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a class="btn btn-primary" href="{% url 'employee:assigned_task' %}" type="button"> <i class="fa-solid fa-arrow-left me-2"></i>Back</a>
+              </div>
+        </div>
+        
+    </div>
+    
+    <div class="row align-items-start mb-4">
+        <div class="col-md-12 col-lg-12">
+            <table class="table table-striped table-bordered caption-top">
+                <caption>Task Details</caption>
+                <thead>
+                  <tr class="table-dark">
+                    <th scope="col">Fields</th>
+                    <th scope="col">Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Task ID</td>
+                    <td> {{task.task_of.task_id}} </td>
+                  </tr>
+
+                  <tr>
+                    <td>Task Heading</td>
+                    <td> {{task.task_of.heading}} </td>
+                  </tr>
+
+                  <tr>
+                    <td>Assigned By</td>
+                    <td> 
+                        {{task.assigned_by.profile.first_name}}  
+                        {{task.assigned_by.profile.last_name}},
+                        {{task.assigned_by.employee_info.position}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Assigned To</td>
+                    <td> 
+                        {{task.assigned_to.profile.first_name}}  
+                        {{task.assigned_to.profile.last_name}},
+                        {{task.assigned_to.employee_info.position}}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Deadline</td>
+                    <td> {{task.task_of.deadline}} </td>
+                  </tr>
+                  {% if task.completion_status  %}
+                    <tr>
+                        <td>Completation Status</td>
+                        <td> {{task.completion_status}} </td>
+                    </tr>
+                    <tr>
+                        <td>Completation Date</td>
+                        <td> {{task.completion_date}} </td>
+                    </tr>
+                    
+                  {% else %}
+                    <tr>
+                        <td>Completation Status</td>
+                        <td> Running </td>
+                    </tr>
+                    
+                  {% endif %}
+                </tbody>
+            </table>
+      </div>
+  </div>
+
+    {% if task.completion_status %}
+    <div class="row align-items-start mb-4">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h6 class="p-2 text-white">Task Completation Report</h6>
+                </div>
+                <div class="card-body">
+                  <p class="card-text"> {{task.completion_report}} </p>
+                </div>
+              </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row align-items-start mb-4">
+        <div class="col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 class="mb-4">Task Running</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row align-items-start mb-4">
+        <div class="col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 class="mb-4">Task Details</h6>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col">
+                    <p> {{task.task_of.description}} </p>
+                </div>
+            </div> 
+        </div>
+    </div>       
+</div>
+
+      {% if feedbacks %}
+      <h6 class="mb-2">Feedback</h6>
+        
+        {% for feedback in feedbacks %}
+        <div class="col-md-12 col-lg-12 mt-4">
+          <div class="card">
+              <div class="card-header bg-primary">
+                <h6 class="p-2 text-white"> 
+                  {{feedback.feedback_by.profile.first_name}} 
+                  {{feedback.feedback_by.profile.last_name}},
+                  {{feedback.feedback_by.employee_info.position}},
+                  {{feedback.feedback_at}},
+                </h6>
+              </div>
+              <div class="card-body">
+                <p class="card-text me-4"> {{feedback.feedback_heading}} 
+                  <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{feedback.id}}" aria-expanded="false" aria-controls="collapseExample">
+                    View Details
+                  </button>
+                </p>
+                <div class="collapse" id="collapseExample{{feedback.id}}">
+                  <div class="card card-body">
+                    {{feedback.description}}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+          
+        {% endfor %}
+           
+      {% endif %}
+
+{% endblock body %}
+
+
+{% block footer %}
+    
+{% endblock footer %}
+    
+    

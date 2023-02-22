@@ -54,7 +54,7 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ('dadeline','heading','description')
+        fields = ('deadline','heading','description')
 
 class TaskAssignedForm(forms.ModelForm):
 
