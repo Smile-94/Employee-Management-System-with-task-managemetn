@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import CreateView
+from django.views.generic import UpdateView
 
 
 # Models
@@ -17,6 +18,7 @@ from authority.models import TaskFeedback
 
 # Forms
 from authority.forms import TaskFeedbackForm
+from authority.forms import TaskCompletationForm
 
 # Filter Class
 from employee.filters import EmployeeAssignedTaskFilter
@@ -55,7 +57,7 @@ class AssginedTaskDetailsView(LoginRequiredMixin, DetailView):
         context["title"] = "Assigned Task Details"
         context["feedbacks"] = TaskFeedback.objects.filter(feedback_of=assigned_task)
         return context
-    
+
 
 class TaskFeedbackView(LoginRequiredMixin, CreateView):
     model = TaskAssigned
@@ -93,6 +95,30 @@ class TaskFeedbackView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Something wrong feedback added Faild")
         return super().form_invalid(form)
+
+class TaskCompletationReportView(LoginRequiredMixin, UpdateView):
+    model = TaskAssigned
+    form_class = TaskCompletationForm
+    template_name = 'employee/task_completation_report.html'
+    success_url = reverse_lazy('employee:assigned_task')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Task Completation Report" 
+        return context
+    
+    def form_valid(self, form):
+        if form.is_valid():
+            form_obj=form.save(commit=False)
+            form_obj.completion_status = True
+            form_obj.save()
+            messages.success(self.request, "Task Completation Report Submited Successfully")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Some thing went worng please try again")
+        return super().form_invalid(form)
+    
         
     
     

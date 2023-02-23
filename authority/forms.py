@@ -62,6 +62,12 @@ class TaskAssignedForm(forms.ModelForm):
         model = TaskAssigned
         fields = ('task_of','task_message',)
 
+class TaskCompletationForm(forms.ModelForm):
+
+    class Meta:
+        model = TaskAssigned
+        fields = ('completion_report',)
+
 
 class TaskFeedbackForm(forms.ModelForm):
 

@@ -16,7 +16,8 @@ urlpatterns = [
 urlpatterns += [
     path('assigned-task/', manage_task.AssignedTaskView.as_view(), name="assigned_task"),
     path('assigned-task-details/<int:pk>/', manage_task.AssginedTaskDetailsView.as_view(), name="assigned_task_detaisl"),
-    path('task_feedback/<int:pk>/', manage_task.TaskFeedbackView.as_view(), name="task_feedback"),
+    path('task-feedback/<int:pk>/', manage_task.TaskFeedbackView.as_view(), name="task_feedback"),
+    path('task-completation/<int:pk>/', manage_task.TaskCompletationReportView.as_view(), name="task_completation"),
     
 ]
 

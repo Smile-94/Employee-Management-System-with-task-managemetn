@@ -52,7 +52,7 @@
                     <td>
                         <a class="btn btn-primary" href="{% url 'employee:assigned_task_detaisl' task.id %}" role="button">View</a>
                         <a class="btn btn-primary" href="{% url 'employee:task_feedback' task.id %}" role="button">Feedback</a>
-                        <a class="btn btn-success" href="{% url 'authority:delete_assigned_task' task.id %}" role="button">Report Complete</a>
+                        <a class="btn btn-success" href="{% url 'employee:task_completation' task.id %}" role="button">Report Complete</a>
                     </td>
                   </tr>
                 {% endfor %}     
