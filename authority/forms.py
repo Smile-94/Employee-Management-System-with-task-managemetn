@@ -50,7 +50,7 @@ class LeaveApplicationForm(forms.ModelForm):
         fields =('leave_from','leave_to','employee_id','leave_description')
 
 class TaskForm(forms.ModelForm):
-    dadeline = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    deadline = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Task

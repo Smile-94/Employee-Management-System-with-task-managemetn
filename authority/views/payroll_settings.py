@@ -33,7 +33,7 @@ class AddPayrollMonthView(LoginRequiredMixin, CreateView):
     form_class = PayrollMonthForm
     filterset_class = PayrollMonthListFilter
     template_name = 'authority/payroll_month.html'
-    success_url = reverse_lazy('authority:payrollmonth_list')
+    success_url = reverse_lazy('authority:add_payrollmonth')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

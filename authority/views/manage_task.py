@@ -46,11 +46,12 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            form_obj=form.save(commit=False)
-            form_obj.create_by= self.request.user
+            form_obj = form.save(commit=False)
+            form_obj.create_by = self.request.user
             form_obj.save()
             messages.success(self.request, "Task Added Successfully")
         return super().form_valid(form)
+
 
     def form_invalid(self, form):
         messages.error(self.request, "Task not added try again")
@@ -59,7 +60,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 class TaskDetailView(DetailView):
     pass
 
-class TaskUpdateView(UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'authority/task_list.html'
@@ -76,7 +77,7 @@ class TaskUpdateView(UpdateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error('Something Wrong, Try again!')
+        messages.error(self.request, 'Something Wrong, Try again!')
         return super().form_invalid(form)
 
 
