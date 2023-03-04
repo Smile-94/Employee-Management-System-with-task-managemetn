@@ -44,6 +44,8 @@ urlpatterns += [
     path('employee-assigned-task/<int:pk>/', manage_task.EmployeeAssignedTaskListView.as_view(), name='employee_assigned_task'),
     path('assigned-task-list/', manage_task.AssignedTaskView.as_view(), name='assigned_task'),
     path('delete-assigned-task/<int:pk>/', manage_task.DeleteAssignedTaskView.as_view(), name='delete_assigned_task'),
+    path('assigned-task-details/<int:pk>/', manage_task.AssginedTaskDetailsView.as_view(), name='assigned_task_details'),
+    path('task-feedback/<int:pk>/', manage_task.TaskFeedbackView.as_view(), name='task_feedback'),
 ]
 
 

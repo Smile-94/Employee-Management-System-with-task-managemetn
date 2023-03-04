@@ -53,6 +53,7 @@ class TaskEmployeeFilter(django_filters.FilterSet):
 class TaskAssignedFileter(django_filters.FilterSet):
     task_of = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Task ID'}))
     assigned_to = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
+    completion_status = django_filters.ChoiceFilter(choices=[(True, 'Complete'), (False, 'Incomplete')])
     
     class Meta:
         model = TaskAssigned
@@ -62,6 +63,7 @@ class TaskAssignedFileter(django_filters.FilterSet):
     def filter_queryset(self, queryset):
         task_of_value = self.data.get('task_of')
         employee_id_value = self.data.get('employee_id')
+        completion_status_value = self.data.get('completion_status')
 
         if task_of_value:
             task_id = Task.objects.get(task_id=task_of_value)
@@ -69,7 +71,11 @@ class TaskAssignedFileter(django_filters.FilterSet):
 
         if employee_id_value:
             queryset = queryset.filter(employee_id=employee_id_value)
-            
+        
+        if completion_status_value:
+            completion_status_bool = completion_status_value.lower() == 'true'
+            queryset = queryset.filter(completion_status=completion_status_bool)
+
         return queryset
 
 

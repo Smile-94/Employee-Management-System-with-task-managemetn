@@ -41,7 +41,7 @@
                 {% for employee in employees.qs %}
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td> {{employee.info_of}} </td>
+                    <td> {{employee.info_of.profile.first_name}} {{employee.info_of.profile.last_name}}  </td>
                     <td> {{employee.employee_id}} </td>
                     <td>{{employee.position.designation}}</td>
                     <td>{{employee.position.department}}</td>

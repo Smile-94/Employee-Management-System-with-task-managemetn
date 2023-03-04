@@ -17,11 +17,13 @@ from django.views.generic import ListView
 # models 
 from authority.models import Task
 from authority.models import TaskAssigned
+from authority.models import TaskFeedback
 from employee.models import EmployeeInfo
 
 # forms
 from authority.forms import TaskForm
 from authority.forms import TaskAssignedForm
+from authority.forms import TaskFeedbackForm
 
 # Filters 
 from authority.filters import TaskFilter
@@ -130,8 +132,13 @@ class AssignTaskView(LoginRequiredMixin, CreateView):
         return initial
     
     def form_valid(self, form):
+        task = form.cleaned_data.get('task_of')
         try:
             other_object = EmployeeInfo.objects.get(id=self.kwargs['pk'])
+
+            if TaskAssigned.objects.filter(task_of=task, assigned_to=other_object.info_of,completion_status=False, is_active=True).exists():
+                messages.warning(self.request, "Task is alredy assigned to this employee")
+                return self.form_invalid(form)
         
             if form.is_valid():
                 form_obj=form.save(commit=False)
@@ -199,6 +206,59 @@ class DeleteAssignedTaskView(LoginRequiredMixin, DeleteView):
         self.object.is_active = False
         self.object.save()
         return redirect(self.success_url)
+
+class AssginedTaskDetailsView(LoginRequiredMixin, DetailView):
+    model = TaskAssigned
+    context_object_name = 'task'
+    template_name = 'authority/assigned_task_details.html'
+
+    def get_context_data(self, **kwargs):
+        try:
+            assigned_task=TaskAssigned.objects.get(id=self.kwargs['pk'])
+        except Exception as e:
+            print(e)
+
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Assigned Task Details"
+        context["feedbacks"] = TaskFeedback.objects.filter(feedback_of=assigned_task)
+        return context
+
+class TaskFeedbackView(LoginRequiredMixin, CreateView):
+    model = TaskAssigned
+    context_object_name = 'task'
+    form_class = TaskFeedbackForm
+    template_name = 'authority/task_feedback.html'
+    success_url = reverse_lazy('authority:assigned_task')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Task Feedback"
+        return context
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['other_pk'] = self.kwargs['pk']
+        return initial
+    
+    def form_valid(self, form):
+        try:
+            task_of=TaskAssigned.objects.get(id=self.kwargs['pk'])
+
+            if form.is_valid():
+                feed_back=form.save(commit=False)
+                feed_back.feedback_of=task_of
+                feed_back.feedback_by=self.request.user
+                feed_back.save()
+                messages.success(self.request, "Feedback given successfully")
+
+            return super().form_valid(form)
+        except Exception as e:
+            print(e)
+            return self.form_invalid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong feedback added Faild")
+        return super().form_invalid(form)
     
     
     

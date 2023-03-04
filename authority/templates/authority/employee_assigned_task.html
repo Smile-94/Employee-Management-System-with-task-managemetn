@@ -35,7 +35,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="#" role="button">View</a>
+                        <a class="btn btn-primary" href="{% url 'authority:assigned_task_details' task.id %}" role="button">View</a>
                     </td>
                   </tr>
                 {% endfor %}     

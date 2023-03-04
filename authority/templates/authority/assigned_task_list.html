@@ -56,7 +56,8 @@
                         {% endif %} 
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="#" role="button">View</a>
+                        <a class="btn btn-primary" href="{% url 'authority:assigned_task_details' task.id %}" role="button">View</a>
+                        <a class="btn btn-success" href="{% url 'authority:task_feedback' task.id %}" role="button">Feed Back</a>
                         <a class="btn btn-danger" href="{% url 'authority:delete_assigned_task' task.id %}" role="button">Delete</a>
                     </td>
                   </tr>
