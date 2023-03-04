@@ -3,6 +3,7 @@ from django.contrib import messages
 
 # Permissions
 from django.contrib.auth.mixins import LoginRequiredMixin
+from employee.permission import EmployeePassesTestMixin
 
 
 
@@ -11,7 +12,7 @@ from django.views.generic import TemplateView
 
 
 
-class EmployeeHomeView( LoginRequiredMixin, TemplateView):
+class EmployeeHomeView( LoginRequiredMixin, EmployeePassesTestMixin, TemplateView):
     template_name = 'employee/employee.html'
 
     def get_context_data(self, **kwargs):

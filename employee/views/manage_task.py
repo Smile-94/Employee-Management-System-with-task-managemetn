@@ -4,6 +4,7 @@ from django.contrib import messages
 
 # Permission
 from django.contrib.auth.mixins import LoginRequiredMixin
+from employee.permission import EmployeePassesTestMixin
 
 # Generic Class
 from django.views.generic import ListView
@@ -26,7 +27,7 @@ from employee.filters import EmployeeAssignedTaskFilter
 
 
 
-class AssignedTaskView(LoginRequiredMixin, ListView):
+class AssignedTaskView(LoginRequiredMixin, EmployeePassesTestMixin, ListView):
     model = TaskAssigned
     queryset = TaskAssigned.objects.filter(is_active=True, completion_status=False).order_by('-id')
     filterset_class = EmployeeAssignedTaskFilter
@@ -42,7 +43,7 @@ class AssignedTaskView(LoginRequiredMixin, ListView):
         return context
 
 
-class AssginedTaskDetailsView(LoginRequiredMixin, DetailView):
+class AssginedTaskDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, DetailView):
     model = TaskAssigned
     context_object_name = 'task'
     template_name = 'employee/assigned_task_details.html'
@@ -59,7 +60,7 @@ class AssginedTaskDetailsView(LoginRequiredMixin, DetailView):
         return context
 
 
-class TaskFeedbackView(LoginRequiredMixin, CreateView):
+class TaskFeedbackView(LoginRequiredMixin, EmployeePassesTestMixin, CreateView):
     model = TaskAssigned
     context_object_name = 'task'
     form_class = TaskFeedbackForm
@@ -96,7 +97,7 @@ class TaskFeedbackView(LoginRequiredMixin, CreateView):
         messages.error(self.request, "Something wrong feedback added Faild")
         return super().form_invalid(form)
 
-class TaskCompletationReportView(LoginRequiredMixin, UpdateView):
+class TaskCompletationReportView(LoginRequiredMixin, EmployeePassesTestMixin, UpdateView):
     model = TaskAssigned
     form_class = TaskCompletationForm
     template_name = 'employee/task_completation_report.html'
@@ -120,7 +121,7 @@ class TaskCompletationReportView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class CompletedTaskListView(LoginRequiredMixin, ListView):
+class CompletedTaskListView(LoginRequiredMixin, EmployeePassesTestMixin, ListView):
     model = TaskAssigned
     queryset = TaskAssigned.objects.filter(is_active=True, completion_status=True).order_by('-id')
     filterset_class = EmployeeAssignedTaskFilter

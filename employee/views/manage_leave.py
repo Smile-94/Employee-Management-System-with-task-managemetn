@@ -1,6 +1,10 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
 
+# Permission Classes
+from django.contrib.auth.mixins import LoginRequiredMixin
+from employee.permission import EmployeePassesTestMixin
+
 
 # Import Generic Views
 from django.views.generic import CreateView
@@ -13,7 +17,7 @@ from authority.models import LeaveApplication
 from authority.forms import LeaveApplicationForm
 
 
-class AddLeaveApplicationView(CreateView):
+class AddLeaveApplicationView(LoginRequiredMixin, EmployeePassesTestMixin, CreateView):
     model = LeaveApplication
     form_class = LeaveApplicationForm
     template_name = 'employee/leave_application.html'
@@ -37,7 +41,7 @@ class AddLeaveApplicationView(CreateView):
         messages.error(self.request, "Leave Application not Applied successfully try again")
         return super().form_invalid(form)
 
-class LeaveDetailsView(DetailView):
+class LeaveDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, DetailView):
     model = LeaveApplication
     context_object_name = 'leave'
     template_name = 'employee/leave_details.html'
