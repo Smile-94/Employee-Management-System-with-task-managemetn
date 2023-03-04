@@ -28,7 +28,7 @@ from employee.filters import EmployeeAssignedTaskFilter
 
 class AssignedTaskView(LoginRequiredMixin, ListView):
     model = TaskAssigned
-    queryset = TaskAssigned.objects.filter(is_active=True).order_by('-id')
+    queryset = TaskAssigned.objects.filter(is_active=True, completion_status=False).order_by('-id')
     filterset_class = EmployeeAssignedTaskFilter
     template_name = 'employee/assigned_task.html'
 
@@ -118,6 +118,22 @@ class TaskCompletationReportView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, "Some thing went worng please try again")
         return super().form_invalid(form)
+
+
+class CompletedTaskListView(LoginRequiredMixin, ListView):
+    model = TaskAssigned
+    queryset = TaskAssigned.objects.filter(is_active=True, completion_status=True).order_by('-id')
+    filterset_class = EmployeeAssignedTaskFilter
+    template_name = 'employee/completed_task_list.html'
+
+    def get_queryset(self):
+        return self.queryset.filter(assigned_to=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Completed Task" 
+        context["assigned_task"] = self.filterset_class(self.request.GET, queryset=self.get_queryset()) 
+        return context
     
         
     
