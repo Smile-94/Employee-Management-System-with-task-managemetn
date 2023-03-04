@@ -12,6 +12,7 @@ from django.views.generic import DeleteView
 
 # Permission and Authentication
 from django.contrib.auth.mixins import LoginRequiredMixin
+from authority.permissions import AdminPassesTestMixin
 
 
 # Models Employee
@@ -26,7 +27,7 @@ from employee.forms import DesignationInfoForm
 from authority.forms import OfficeTimeForm
 
     
-class AddDesignationView(LoginRequiredMixin, CreateView):
+class AddDesignationView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = DesignationInfo
     form_class = DesignationInfoForm
     template_name = 'authority/add_designation.html'
@@ -46,7 +47,7 @@ class AddDesignationView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class DesignationListView(LoginRequiredMixin, ListView):
+class DesignationListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
     model = DesignationInfo
     fields = ('designation', 'department', 'created_at', 'updated_at')
     context_object_name = 'designations'
@@ -65,7 +66,7 @@ class DesignationListView(LoginRequiredMixin, ListView):
         return context
 
 
-class DesignationUpdateView(LoginRequiredMixin, UpdateView):
+class DesignationUpdateView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = DesignationInfo
     fields = ('designation', 'department', 'description')
     template_name = 'authority/add_designation.html'
@@ -85,7 +86,7 @@ class DesignationUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class DesignationDeleteView(LoginRequiredMixin, DeleteView):
+class DesignationDeleteView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
     model = DesignationInfo
     template_name = 'authority/delete_designation.html'
     context_object_name = 'designation'
@@ -97,7 +98,7 @@ class DesignationDeleteView(LoginRequiredMixin, DeleteView):
         self.object.save()
         return redirect(success_url)
 
-class AddOfficeTimeView(LoginRequiredMixin, CreateView):
+class AddOfficeTimeView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model=OfficeTime
     form_class=OfficeTimeForm
     template_name= "authority/add_office_time.html"
@@ -118,7 +119,7 @@ class AddOfficeTimeView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class UpdateOfficeTimeView(LoginRequiredMixin, UpdateView):
+class UpdateOfficeTimeView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model=OfficeTime
     form_class=OfficeTimeForm
     template_name= "authority/add_office_time.html"

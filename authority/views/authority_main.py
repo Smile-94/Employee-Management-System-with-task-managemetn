@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 
 # Permission and Authentication
 from django.contrib.auth.mixins import LoginRequiredMixin
+from authority.permissions import AdminPassesTestMixin
 
 
 # Models Employee
@@ -20,7 +21,7 @@ from reciption.models import Attendance
 
 
 # Create your views here.
-class AdminView(LoginRequiredMixin, TemplateView):
+class AdminView(LoginRequiredMixin, AdminPassesTestMixin, TemplateView):
     template_name = 'authority/admin.html'
 
     def get_context_data(self, **kwargs):

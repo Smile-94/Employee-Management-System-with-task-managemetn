@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 
 #permission class
 from django.contrib.auth.mixins import LoginRequiredMixin
+from authority.permissions import AdminPassesTestMixin
 
 # generic class 
 from django.views.generic import CreateView
@@ -31,7 +32,7 @@ from authority.filters import TaskEmployeeFilter
 from authority.filters import TaskAssignedFileter
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = Task
     form_class = TaskForm
     queryset = Task.objects.filter(is_active=True).order_by('-id')
@@ -62,7 +63,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 class TaskDetailView(DetailView):
     pass
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'authority/task_list.html'
@@ -83,7 +84,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     template_name = 'authority/delete_task.html'
@@ -101,7 +102,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
         return redirect(self.success_url)
 
 
-class EmployeeTaskListView(LoginRequiredMixin, ListView):
+class EmployeeTaskListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
     model = EmployeeInfo
     queryset = EmployeeInfo.objects.filter(is_active=True)
     filterset_class = TaskEmployeeFilter
@@ -115,7 +116,7 @@ class EmployeeTaskListView(LoginRequiredMixin, ListView):
         return context
 
 
-class AssignTaskView(LoginRequiredMixin, CreateView):
+class AssignTaskView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = TaskAssigned
     form_class = TaskAssignedForm
     template_name = 'authority/assigned_task.html'
@@ -157,7 +158,7 @@ class AssignTaskView(LoginRequiredMixin, CreateView):
         messages.error(self.request, "Something went wrong try again!")
         return super().form_invalid(form)
 
-class EmployeeAssignedTaskListView(LoginRequiredMixin, ListView):
+class EmployeeAssignedTaskListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
 
     Model = TaskAssigned
     queryset = TaskAssigned.objects.filter(is_active=True).order_by("-id")
@@ -176,7 +177,7 @@ class EmployeeAssignedTaskListView(LoginRequiredMixin, ListView):
         context["tasks"] = self.get_queryset() 
         return context
 
-class AssignedTaskView(LoginRequiredMixin, ListView):
+class AssignedTaskView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
     model = TaskAssigned
     queryset = TaskAssigned.objects.filter(is_active=True).order_by('-id')
     filterset_class = TaskAssignedFileter
@@ -190,7 +191,7 @@ class AssignedTaskView(LoginRequiredMixin, ListView):
         return context
     
 
-class DeleteAssignedTaskView(LoginRequiredMixin, DeleteView):
+class DeleteAssignedTaskView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
     model = TaskAssigned
     context_object_name = 'task'
     template_name = 'authority/delete_assigned_task.html'
@@ -207,7 +208,7 @@ class DeleteAssignedTaskView(LoginRequiredMixin, DeleteView):
         self.object.save()
         return redirect(self.success_url)
 
-class AssginedTaskDetailsView(LoginRequiredMixin, DetailView):
+class AssginedTaskDetailsView(LoginRequiredMixin, AdminPassesTestMixin, DetailView):
     model = TaskAssigned
     context_object_name = 'task'
     template_name = 'authority/assigned_task_details.html'
@@ -223,7 +224,7 @@ class AssginedTaskDetailsView(LoginRequiredMixin, DetailView):
         context["feedbacks"] = TaskFeedback.objects.filter(feedback_of=assigned_task)
         return context
 
-class TaskFeedbackView(LoginRequiredMixin, CreateView):
+class TaskFeedbackView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = TaskAssigned
     context_object_name = 'task'
     form_class = TaskFeedbackForm
