@@ -60,7 +60,7 @@ class AssginedTaskDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, Detai
         return context
 
 
-class TaskFeedbackView(LoginRequiredMixin, EmployeePassesTestMixin, CreateView):
+class TaskFeedbackView(LoginRequiredMixin, CreateView):
     model = TaskAssigned
     context_object_name = 'task'
     form_class = TaskFeedbackForm
