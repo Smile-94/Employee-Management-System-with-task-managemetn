@@ -9,6 +9,7 @@ from authority.models import LeaveApplication
 from authority.models import Task
 from authority.models import TaskAssigned
 from authority.models import TaskFeedback
+from authority.models import LatePresentAndLeave
 
 
 # Register your models here.
@@ -56,4 +57,8 @@ class TaskAssignedAdmin(admin.ModelAdmin):
 class TaskFeedbackAdmin(admin.ModelAdmin):
     list_display = ('feedback_of', 'feedback_by', 'feedback_at')
     list_per_page = 50
+
+@admin.register(LatePresentAndLeave)
+class LatePresentAndLeaveAdmin(admin.ModelAdmin):
+    list_display = ('allowed_time','allowed_late','allowed_leave')
 

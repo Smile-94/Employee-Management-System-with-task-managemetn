@@ -10,6 +10,7 @@ from authority.models import LeaveApplication
 from authority.models import Task
 from authority.models import TaskAssigned
 from authority.models import TaskFeedback
+from authority.models import LatePresentAndLeave
 
 
 
@@ -82,3 +83,11 @@ class TaskFeedbackForm(forms.ModelForm):
     class Meta:
         model = TaskFeedback
         fields = ('description', 'feedback_heading')
+
+
+class LatePresentAndLeaveForm(forms.ModelForm):
+    allowed_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+
+    class Meta:
+        model = LatePresentAndLeave
+        exclude = ('created_at','modified_at','is_active')

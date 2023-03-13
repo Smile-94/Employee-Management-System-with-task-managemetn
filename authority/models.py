@@ -114,3 +114,13 @@ class TaskFeedback(models.Model):
     def __str__(self):
         return str(self.feedback_of)
 
+class LatePresentAndLeave(models.Model):
+    allowed_time = models.DurationField()
+    allowed_late = models.PositiveIntegerField()
+    allowed_leave = models.PositiveIntegerField()
+    late_salary_cut = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    leave_salary_cut = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    created_at = models.DateField(auto_now_add=True)
+    modified_at = models.DateField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
