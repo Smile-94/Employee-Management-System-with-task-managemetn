@@ -1,0 +1,219 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+{% if updated %}
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Update Allowed Late Present Leave</h6>
+        </div>
+    </div>
+        <form method='POST'> {% csrf_token %}
+            <div class="row">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Allowed Late Present Time</label>
+                    {{form.allowed_time | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Allowed Late Present Days</label>
+                    {{form.allowed_late | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Salary Cut for Extra Late Present(Percentage)</label>
+                    {{form.late_salary_cut | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Monthly Allowed Leaves</label>
+                    {{form.allowed_leave | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Salary Cut for Extra Leave(Percentage) </label>
+                    {{form.leave_salary_cut | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mx-auto">
+                <a class="btn btn-primary" href="{% url 'authority:add_late_present_and_leave' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back to Category</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    {% elif deleted %}
+        <div class="row">
+            <div class="col-md-4">
+                <h6 class="mb-4">Monthly Allowed Late Present & Leave</h6>
+            </div>
+            <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+                <a class="btn btn-sm btn-primary" href="{% url 'authority:add_late_present_and_leave' %}"><i class="fa-solid fa-arrow-left me-2"></i> Back To Category</a>
+                
+            </div>
+        </div>
+         
+        {% if lateLeave %}
+             <!-- Table Start -->
+            <div class="table-responsive">
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Allowed Time</th>
+                                <th scope="col">Allowed Days</th>
+                                <th scope="col">Allowed Leave</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> {{lateLeave.allowed_time}} </td>
+                                    <td> {{lateLeave.allowed_late}} </td>
+                                    <td> {{lateLeave.allowed_leave}} </td>
+                                    <td>
+                                        <div id="deleteForm">
+                                            <form action="" method='POST'> {% csrf_token %}
+                                                <button class="btn btn-sm btn-danger" type='submit' id="deleteTask">Delete</button>
+                                            </form>
+                                        </div> 
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+            </div>
+        {% endif %}
+    <!-- Table End --> 
+                    
+    {% else %}
+    <!-- Recent Sales Start -->
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Monthly Allowed Late Present and Leave</h6>
+        </div>
+        <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-plus"></i>
+               Allowed Leave & Late Present
+              </button>
+        </div>
+    </div>
+            <!-- Table Start -->
+            <div class="table-responsive">
+                {% if lateLeaves %}
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Allowed Time</th>
+                                <th scope="col">Allowed Days</th>
+                                <th scope="col">Salary Cut(%)</th>
+                                <th scope="col">Allowed Leave</th>
+                                <th scope="col">Salary Cut</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for leave in lateLeaves %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td> {{leave.allowed_time}} </td>
+                                    <td> {{leave.allowed_late}} </td>
+                                    <td> {{leave.late_salary_cut}} </td>
+                                    <td> {{leave.allowed_leave}} </td>
+                                    <td> {{leave.leave_salary_cut}} </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="{% url 'authority:update_late_present_and_leave' leave.id %}">Edit</a>
+                                        <a class="btn btn-sm btn-danger" href="{% url 'authority:delete_late_present_and_leave' leave.id %}">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h6>No Allowed Leave and Late Preset Added Click on the add button</h6>
+                {% endif %}
+                
+            </div>
+    <!-- Table End -->
+{% endif %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header bg-primary ">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Add Monthly Allowed Leave and Late Present</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST"> {% csrf_token %}
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Allowed Time</label>
+                        {{form.allowed_time |add_class:"form-control"}}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Allowed Late Present</label>
+                        {{form.allowed_late |add_class:"form-control"}}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Salary Cut After Allowed Late Present(%)</label>
+                        {{form.late_salary_cut |add_class:"form-control"}}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Allowed Leave</label>
+                        {{form.allowed_leave |add_class:"form-control"}}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Salary Cut After Allowed Leave(%)</label>
+                        {{form.leave_salary_cut |add_class:"form-control"}}
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+      </div>
+    </div>
+</div>
+
+  <script>
+    var deleteTask = document.getElementById("deleteTask");
+    var deleteForm = document.getElementById("deleteForm");
+
+    deleteTask.addEventListener("click", function(event) {
+    var result = confirm("Are you sure you want delete leave Category?");
+    if (result) {
+        alert('Deleted successfully');
+    } else {
+        alert('Deletion Cancelled');
+        event.preventDefault(); // prevent default form submission
+    }
+    });
+
+    deleteForm.addEventListener("submit", function(event) {
+    {% comment %} event.preventDefault(); // prevent default form submission {% endcomment %}
+    });
+ 
+                
+</script>
+  
+{% endblock body %}

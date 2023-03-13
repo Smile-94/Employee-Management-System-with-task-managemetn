@@ -20,13 +20,75 @@ from employee.models import DesignationInfo
 
 # Models Authority
 from authority.models import OfficeTime
+from authority.models import LatePresentAndLeave
 
 
 # forms 
 from employee.forms import DesignationInfoForm
 from authority.forms import OfficeTimeForm
+from authority.forms import LatePresentAndLeaveForm
 
+# Allowed Late Present and Leave
+class AddAllowedLatePresentLeaveView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
+    model = LatePresentAndLeave
+    form_class = LatePresentAndLeaveForm
+    template_name = 'authority/late_present_leave.html'
+    success_url = reverse_lazy('authority:add_late_present_and_leave')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Add Late Present and Leave'
+        context["lateLeaves"] = LatePresentAndLeave.objects.filter(is_active=True)
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Allowed Late Present and Leave Added Successfully ")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something went wrong please try again")
+        return super().form_invalid(form)
+    
+    
+class UpdateAllowedLatePresentLeaveView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = LatePresentAndLeave
+    form_class = LatePresentAndLeaveForm
+    template_name = 'authority/late_present_leave.html'
+    success_url = reverse_lazy('authority:add_late_present_and_leave')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Update Late Present and Leave'
+        context["updated"] = True
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Allowed Late Present and Leave Added Successfully ")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something went wrong please try again")
+        return super().form_invalid(form)
+    
+    
+class DeleteAllowedLatePresentLeaveView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= LatePresentAndLeave
+    context_object_name = 'lateLeave'
+    template_name = "authority/late_present_leave.html"
+    success_url = reverse_lazy('authority:add_late_present_and_leave')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Late Present and Leave" 
+        context["deleted"] = True
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)
+
+
 class AddDesignationView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = DesignationInfo
     form_class = DesignationInfoForm

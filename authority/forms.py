@@ -12,6 +12,9 @@ from authority.models import TaskAssigned
 from authority.models import TaskFeedback
 from authority.models import LatePresentAndLeave
 
+# Customs Widgets
+from authority.widgets import DurationWidget
+from authority.widgets import DurationFormField
 
 
 # Create form class here
@@ -86,8 +89,8 @@ class TaskFeedbackForm(forms.ModelForm):
 
 
 class LatePresentAndLeaveForm(forms.ModelForm):
-    allowed_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+    allowed_time = DurationFormField(widget=DurationWidget)
 
     class Meta:
         model = LatePresentAndLeave
-        exclude = ('created_at','modified_at','is_active')
+        fields = ('allowed_time','allowed_late','allowed_leave','late_salary_cut','leave_salary_cut')
