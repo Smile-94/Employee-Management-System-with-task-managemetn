@@ -4,6 +4,7 @@ from django.contrib import admin
 from authority.models import OfficeTime
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
+from authority.models import LeaveType
 from authority.models import LeaveApplication
 from authority.models import Task
 from authority.models import TaskAssigned
@@ -24,6 +25,11 @@ class FestivalBonusAdmin(admin.ModelAdmin):
 @admin.register(OfficeTime)
 class SetOfficeTimeAdmin(admin.ModelAdmin):
     list_display = ('office_start', 'office_end', 'modified_at', 'created_at')
+
+
+@admin.register(LeaveType)
+class LeaveTypeAdmin(admin.ModelAdmin):
+    list_display = ('leave_name','permited_days','modified_at','salary_diduct')
 
 
 @admin.register(LeaveApplication)

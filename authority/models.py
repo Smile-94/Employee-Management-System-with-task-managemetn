@@ -42,9 +42,18 @@ class OfficeTime(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     modified_at=models.DateTimeField(auto_now=True)
 
+class LeaveType(models.Model):
+    leave_name = models.CharField( max_length=30)
+    permited_days = models.PositiveIntegerField()
+    salary_diduct = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
 class LeaveApplication(models.Model):
     application_of = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leave_employee')
     approvied_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_by',blank=True, null=True)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE, related_name='leave_type',null=True)
     employee_id = models.CharField(max_length=10,null=True)
     leave_from = models.DateField(auto_now=False, auto_now_add=False)
     leave_to = models.DateField(auto_now=False, auto_now_add=False)

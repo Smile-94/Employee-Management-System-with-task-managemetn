@@ -6,6 +6,7 @@ from authority.views import manage_employee
 from authority.views import admin_settings
 from authority.views import payroll_settings
 from authority.views import manage_task
+from authority.views import manage_leave
 
 
 app_name = 'authority'
@@ -47,6 +48,14 @@ urlpatterns += [
     path('assigned-task-details/<int:pk>/', manage_task.AssginedTaskDetailsView.as_view(), name='assigned_task_details'),
     path('task-feedback/<int:pk>/', manage_task.TaskFeedbackView.as_view(), name='task_feedback'),
 ]
+
+# Manage Leave
+urlpatterns += [
+    path('add-leave-category/', manage_leave.AddLeaveCategoryView.as_view(), name='add_leave_category'),
+    path('update-leave-category/<int:pk>/', manage_leave.UpdateLeaveCategory.as_view(), name='update_leave_category'),
+    path('delete-leave-category/<int:pk>/', manage_leave.DeleteLeaveCategoryView.as_view(), name='delete_leave_category'),
+]
+
 
 
 

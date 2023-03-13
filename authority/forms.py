@@ -5,6 +5,7 @@ from datetime import datetime
 from authority.models import OfficeTime
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
+from authority.models import LeaveType
 from authority.models import LeaveApplication
 from authority.models import Task
 from authority.models import TaskAssigned
@@ -41,13 +42,20 @@ class FestivalBonusForm(forms.ModelForm):
         exclude=('is_active',)
 
 
+class LeaveTypeForm(forms.ModelForm):
+
+    class Meta:
+        model = LeaveType
+        fields = ('leave_name','permited_days','salary_diduct')
+
+
 class LeaveApplicationForm(forms.ModelForm):
     leave_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     leave_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = LeaveApplication
-        fields =('leave_from','leave_to','employee_id','leave_description')
+        fields =('leave_from','leave_to','leave_type','leave_description')
 
 class TaskForm(forms.ModelForm):
     deadline = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
