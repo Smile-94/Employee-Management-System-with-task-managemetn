@@ -75,5 +75,11 @@ urlpatterns += [
     path('add-late-present-leave/', admin_settings.AddAllowedLatePresentLeaveView.as_view(), name='add_late_present_and_leave'),
     path('update-late-present-leave/<int:pk>/', admin_settings.UpdateAllowedLatePresentLeaveView.as_view(), name='update_late_present_and_leave'),
     path('delete-late-present-leave/<int:pk>/', admin_settings.DeleteAllowedLatePresentLeaveView.as_view(), name='delete_late_present_and_leave'),
+    # Weekly offday
+    path('add-weekly-offday', admin_settings.AddWeeklyOffDayView.as_view(), name='add_weekly_offday'),
+    path('update-weekly-offday/<int:pk>/', admin_settings.UpdateWeeklyOffDay.as_view(), name='update_weekly_offday'),
+    path('delete-weekly-offday/<int:pk>/', admin_settings.DeleteWeeklyOffDayView.as_view(), name='delete_weekly_offday'),
+
+
 ]
 
