@@ -71,6 +71,7 @@ urlpatterns += [
     path('delete-designation/<int:pk>/', admin_settings.DesignationDeleteView.as_view(), name='delete_designation'),
     path('add-office-time/', admin_settings.AddOfficeTimeView.as_view(), name='add_officetime'),
     path('update-office-time/<int:pk>/', admin_settings.UpdateOfficeTimeView.as_view(), name='update_officetime'),
+    path('delete-office-time/<int:pk>/', admin_settings.DeleteOfficeTimeView.as_view(), name='delete_officetime'),
     # Allowed Late Present and Leave
     path('add-late-present-leave/', admin_settings.AddAllowedLatePresentLeaveView.as_view(), name='add_late_present_and_leave'),
     path('update-late-present-leave/<int:pk>/', admin_settings.UpdateAllowedLatePresentLeaveView.as_view(), name='update_late_present_and_leave'),

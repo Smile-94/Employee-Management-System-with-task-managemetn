@@ -38,7 +38,7 @@ class OfficeTimeForm(forms.ModelForm):
     
     class Meta:
         model=OfficeTime
-        fields = '__all__'
+        exclude = ('is_active',)
 
 
 class FestivalBonusForm(forms.ModelForm):

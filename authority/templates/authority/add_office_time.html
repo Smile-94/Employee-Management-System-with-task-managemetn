@@ -8,54 +8,132 @@
 
 {% block body %}
 <div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Add Employee</h6>
-    <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
-        <div class="row mb-4">
-            <div class="col">
-                <label for="exampleInputEmail1" class="form-label">Office Start Time</label>
-                {{form.office_start |add_class:"form-control" }}
+    {% if updated %}
+        <h6 class="mb-4">Update Office Time</h6>
+        <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col">
+                    <label for="exampleInputEmail1" class="form-label">Office Start Time</label>
+                    {{form.office_start |add_class:"form-control" }}
+                </div>
+                <div class="col">
+                    <label for="exampleInputEmail1" class="form-label">Office End Time</label>
+                    {{form.office_end |add_class:"form-control" }}
+                </div>
+                <div class="col mt-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
-            <div class="col">
-                <label for="exampleInputEmail1" class="form-label">Office End Time</label>
-                {{form.office_end |add_class:"form-control" }}
+        </form>
+    
+    {% elif deleted %}
+
+        <div class="row">
+            <div class="col-md-4">
+                <h6 class="mb-4">Office Time</h6>
             </div>
-            <div class="col mt-4">
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+                <a class="btn btn-sm btn-primary" href="{% url 'authority:add_weekly_offday' %}"><i class="fa-solid fa-arrow-left me-2"></i> Back To Off-day</a> 
             </div>
         </div>
-    </form>
-    
-    
-    {% if office_time %}
-    <table class="table ">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">Office Start Time</th>
-            <th scope="col">Office End Time</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-            
+ 
+        {% if officetime %}
+            <!-- Table Start -->
+            <div class="table-responsive">
+             <table class="table text-start table-bordered table-hover mb-0">
+                 <thead>
+                    <tr class="text-dark">
+                        <th scope="col">SL</th>
+                        <th scope="col">Office Start Time</th>
+                        <th scope="col">Office End Time</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td> 1 </td>
+                            <td>{{officetime.office_start}}</td>
+                            <td> {{officetime.office_end}} </td>
+                            <td>
+                                <div id="deleteForm">
+                                    <form action="" method='POST'> {% csrf_token %}
+                                        <button class="btn btn-sm btn-danger" type='submit' id="deleteTask">Delete</button>
+                                    </form>
+                                </div> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+        {% endif %}
+    <!-- Table End --> 
+
+   {% else %}
+        <h6 class="mb-4">Add Office Time</h6>
+        <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col">
+                    <label for="exampleInputEmail1" class="form-label">Office Start Time</label>
+                    {{form.office_start |add_class:"form-control" }}
+                </div>
+                <div class="col">
+                    <label for="exampleInputEmail1" class="form-label">Office End Time</label>
+                    {{form.office_end |add_class:"form-control" }}
+                </div>
+                <div class="col mt-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        
+        <table class="table ">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Office Start Time</th>
+                <th scope="col">Office End Time</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+        {% if office_time %}
+            <tbody>
             {% for time in office_time %}
             <tr>
                 <td>{{time.office_start}}</td>
                 <td> {{time.office_end}} </td>
                 <td>
-                    <a class="btn btn-success" href="{% url 'authority:update_officetime' time.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
-                    <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i>Delete</a>
+                    <a class="btn btn-success" href="{% url 'authority:update_officetime' time.id %}" role="button">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'authority:delete_officetime' time.id %}" role="button">Delete</a>
                 </td>
               </tr>
                 
             {% endfor %}
     
-        </tbody>
-      </table>
+            </tbody>
+            {% endif %}
+        </table> 
         
     {% endif %}
-        
-
-</div>
     
+</div>
+<script>
+    var deleteTask = document.getElementById("deleteTask");
+    var deleteForm = document.getElementById("deleteForm");
+
+    deleteTask.addEventListener("click", function(event) {
+    var result = confirm("Are you sure you want delete?");
+    if (result) {
+        alert('Deleted successfully');
+    } else {
+        alert('Deletion Cancelled');
+        event.preventDefault(); // prevent default form submission
+    }
+    });
+
+    deleteForm.addEventListener("submit", function(event) {
+    {% comment %} event.preventDefault(); // prevent default form submission {% endcomment %}
+    });
+ 
+                
+</script>
 {% endblock body %}
     

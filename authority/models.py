@@ -41,6 +41,7 @@ class OfficeTime(models.Model):
     office_end=models.TimeField(auto_now=False, auto_now_add=False)
     created_at=models.DateTimeField(auto_now_add=True)
     modified_at=models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
 class LeaveType(models.Model):
     leave_name = models.CharField( max_length=30)

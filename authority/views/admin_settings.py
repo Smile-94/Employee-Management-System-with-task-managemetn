@@ -166,12 +166,12 @@ class AddOfficeTimeView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model=OfficeTime
     form_class=OfficeTimeForm
     template_name= "authority/add_office_time.html"
-    success_url=reverse_lazy('authority:add_office')
+    success_url=reverse_lazy('authority:add_officetime')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Add Office Time" 
-        context["office_time"] = OfficeTime.objects.all()
+        context["office_time"] = OfficeTime.objects.filter(is_active=True)
         return context
     
     def form_valid(self, form):
@@ -192,6 +192,7 @@ class UpdateOfficeTimeView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Update Office Time" 
+        context["updated"] = True 
         return context
     
     def form_valid(self, form):
@@ -201,6 +202,24 @@ class UpdateOfficeTimeView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView)
     def form_invalid(self, form):
         messages.error(self.request, "Office time not added try again")
         return super().form_invalid(form)
+
+class DeleteOfficeTimeView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= OfficeTime
+    context_object_name = 'officetime'
+    template_name= "authority/add_office_time.html"
+    success_url=reverse_lazy('authority:add_officetime')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Weekly Off-day" 
+        context["deleted"] = True
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)
+
 
 class AddWeeklyOffDayView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model=WeeklyOffDay
