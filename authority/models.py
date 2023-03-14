@@ -50,6 +50,9 @@ class LeaveType(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.leave_name
+
 class LeaveApplication(models.Model):
     application_of = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leave_employee')
     approvied_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_by',blank=True, null=True)
@@ -57,11 +60,16 @@ class LeaveApplication(models.Model):
     employee_id = models.CharField(max_length=10,null=True)
     leave_from = models.DateField(auto_now=False, auto_now_add=False)
     leave_to = models.DateField(auto_now=False, auto_now_add=False)
+    total_days = models.IntegerField(default=0)
     leave_description = models.TextField()
     approved_status = models.BooleanField(default=False)
     declined_status = models.BooleanField(default=False)
     declined_message = models.TextField(null=True)
     is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        self.total_days = (self.leave_to - self.leave_from).days + 1
+        super(LeaveApplication, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(f"{self.application_of}'s Application ")

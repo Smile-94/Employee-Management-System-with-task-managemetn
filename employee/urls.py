@@ -26,5 +26,6 @@ urlpatterns += [
 # Manage Leave
 urlpatterns += [
     path('appliy-leave/', manage_leave.AddLeaveApplicationView.as_view(), name="apply_leave" ),
+    path('update-leave-application/<int:pk>/', manage_leave.UpdateLiveApplicationView.as_view(), name="update_leave_application" ),
     path('leave-details/<int:pk>/', manage_leave.LeaveDetailsView.as_view(), name="leave-details" ),
 ]
