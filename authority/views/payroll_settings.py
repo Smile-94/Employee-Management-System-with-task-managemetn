@@ -5,6 +5,8 @@ from django.contrib import messages
 
 # Filters Class
 from authority.filters import PayrollMonthListFilter
+from authority.filters import PayrollMonthListFilter
+from authority.filters import MonthlyHoliDayFilter
 
 
 # class-based view classes
@@ -21,11 +23,13 @@ from authority.permissions import AdminPassesTestMixin
 # Models Authority
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
+from authority.models import MonthlyHoliDay
 
 
 # forms 
 from authority.forms import PayrollMonthForm
 from authority.forms import FestivalBonusForm
+from authority.forms import MonthlyHolidayForm
 
 
 class AddPayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
@@ -129,6 +133,68 @@ class FestivalBonusUpdateView(LoginRequiredMixin, AdminPassesTestMixin, UpdateVi
     def form_invalid(self, form):
         messages.error(self.request, 'Festival Bonus not updated try again !')
         return super().form_invalid(form)
+    
+
+class AddMonthlyHolidayView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
+    model = MonthlyHoliDay
+    queryset = MonthlyHoliDay.objects.filter(is_active=True)
+    form_class = MonthlyHolidayForm
+    filterset_class = MonthlyHoliDayFilter
+    template_name = 'authority/monthly_holiday.html'
+    success_url = reverse_lazy('authority:add_monthly_holiday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Monthly Holiday"
+        context["holidays"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+
+        return context
+    
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Monthy Holiday Added Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again")
+        return super().form_invalid(form)
+
+class UpdateMonthlyHolidayView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model= MonthlyHoliDay
+    form_class=MonthlyHolidayForm
+    template_name='authority/monthly_holiday.html'
+    success_url= reverse_lazy('authority:add_monthly_holiday')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Monthly Holiday"
+        context["updated"] = True
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Monthly Holiday Updated Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong please try again!")
+        return super().form_invalid(form)
+
+class DeleteMonthlyHolidayView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= MonthlyHoliDay
+    context_object_name ='holiday'
+    template_name='authority/monthly_holiday.html'
+    success_url= reverse_lazy('authority:add_monthly_holiday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Monthly Holiday" 
+        context["deleted"] = True 
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)
     
 
     

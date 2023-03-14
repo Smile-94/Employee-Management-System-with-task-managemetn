@@ -6,7 +6,9 @@ from accounts.models import User
 from authority.models import PayrollMonth
 from authority.models import Task
 from authority.models import TaskAssigned
+from authority.models import MonthlyHoliDay
 from employee.models import EmployeeInfo
+
 
 
 class EmployeeListFilter(django_filters.FilterSet):
@@ -90,4 +92,12 @@ class PayrollMonthListFilter(django_filters.FilterSet):
             'month' : {'exact'},
             'year'  : {'exact'}
        }
+
+class MonthlyHoliDayFilter(django_filters.FilterSet):
+    from_date = django_filters.DateFilter(field_name='date', lookup_expr='gte', widget=forms.DateInput(attrs={'type': 'date'}), label='From')
+    to_date = django_filters.DateFilter(field_name='date', lookup_expr='lte', widget=forms.DateInput(attrs={'type': 'date'}), label='To')
+
+    class Meta:
+        model = MonthlyHoliDay
+        fields = ('holiday_name','holiday_month','date')
         

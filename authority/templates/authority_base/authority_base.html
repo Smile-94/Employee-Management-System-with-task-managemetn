@@ -34,6 +34,10 @@
     <!-- font-aswome cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://kit.fontawesome.com/ddee993d4e.js" crossorigin="anonymous"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -69,6 +73,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'authority:add_payrollmonth' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Salary Month</a>
                             <a href="{% url 'authority:festival_bonus' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Festival Bonus</a>
+                            <a href="{% url 'authority:add_monthly_holiday' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Monthly Holiday</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -128,15 +133,16 @@
             </nav>
             <!-- Navbar End -->
             <!-- Messages Start -->
-        {% if messages %}
-        {% for message in messages %}
-            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" {% endif %}>
-                <i class="fa fa-exclamation-circle me-2"></i>{{ message }}!
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div id="messages-container">
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
             </div>
-            
-        {% endfor %}
-        {% endif %}
+              
+        
 
 
             <!-- Blank Start -->
@@ -167,9 +173,22 @@
     <script src="{% static 'lib/tempusdominus/js/moment.min.js' %}"></script>
     <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
     <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
-
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
+
+    <script>
+        $(document).ready(function() {
+          $('.alert').alert();
+        
+          $('.alert').on('closed.bs.alert', function () {
+            $(this).remove();
+          });
+        });
+    </script>
+        
 </body>
 
 </html>

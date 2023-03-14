@@ -10,6 +10,7 @@ from authority.models import Task
 from authority.models import TaskAssigned
 from authority.models import TaskFeedback
 from authority.models import LatePresentAndLeave
+from authority.models import MonthlyHoliDay
 
 
 # Register your models here.
@@ -61,4 +62,8 @@ class TaskFeedbackAdmin(admin.ModelAdmin):
 @admin.register(LatePresentAndLeave)
 class LatePresentAndLeaveAdmin(admin.ModelAdmin):
     list_display = ('allowed_time','allowed_late','allowed_leave')
+
+@admin.register(MonthlyHoliDay)
+class MonthlyHoliDayAdmin(admin.ModelAdmin):
+    list_display = ('holiday_name', 'holiday_month','date')
 

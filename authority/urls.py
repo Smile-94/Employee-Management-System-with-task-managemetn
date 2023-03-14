@@ -33,6 +33,10 @@ urlpatterns += [
     path('update-payroll-month/<int:pk>/', payroll_settings.UpdatePayrollMonthView.as_view(), name='update_payrollmonth'), 
     path('festival-bonus/', payroll_settings.FestivalBonusView.as_view(), name='festival_bonus'),
     path('festival-update/<int:pk>/', payroll_settings.FestivalBonusUpdateView.as_view(), name='update_festival'),
+    # MonthlyHoliDay
+    path('add-monthly-holiday/', payroll_settings.AddMonthlyHolidayView.as_view(), name='add_monthly_holiday'),
+    path('update-monthly-holiday/<int:pk>/', payroll_settings.UpdateMonthlyHolidayView.as_view(), name='update_monthly_holiday'),
+    path('delete-monthly-holiday/<int:pk>/', payroll_settings.DeleteMonthlyHolidayView.as_view(), name='delete_monthly_holiday'),
 ]
 
 # manage task

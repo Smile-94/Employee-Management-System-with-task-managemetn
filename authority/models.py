@@ -124,3 +124,25 @@ class LatePresentAndLeave(models.Model):
     modified_at = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+class MonthlyHoliDay(models.Model):
+    MONTH_CHOICES = [
+        ('Jan', 'January'),
+        ('Feb', 'February'),
+        ('Mar', 'March'),
+        ('Apr', 'April'),
+        ('May', 'May'),
+        ('Jun', 'June'),
+        ('Jul', 'July'),
+        ('Aug', 'August'),
+        ('Sep', 'September'),
+        ('Oct', 'October'),
+        ('Nov', 'November'),
+        ('Dec', 'December'),
+    ]
+    holiday_name = models.CharField( max_length=50)
+    holiday_month = models.CharField(max_length=10, choices=MONTH_CHOICES)
+    date = models.DateField()
+    is_active = models.BooleanField(default=True)
+
+
+
