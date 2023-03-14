@@ -12,6 +12,7 @@ from authority.models import TaskAssigned
 from authority.models import TaskFeedback
 from authority.models import LatePresentAndLeave
 from authority.models import MonthlyHoliDay
+from authority.models import WeeklyOffDay
 
 # Customs Widgets
 from authority.widgets import DurationWidget
@@ -103,5 +104,11 @@ class MonthlyHolidayForm(forms.ModelForm):
     class Meta:
         model = MonthlyHoliDay
         exclude = ('is_active',)
+
+class WeeklyOffDayForm(forms.ModelForm):
+    
+    class Meta:
+        model = WeeklyOffDay
+        fields = ('first_day','second_day')
 
 

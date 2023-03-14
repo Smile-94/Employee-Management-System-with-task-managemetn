@@ -144,5 +144,21 @@ class MonthlyHoliDay(models.Model):
     date = models.DateField()
     is_active = models.BooleanField(default=True)
 
+class WeeklyOffDay(models.Model):
+    DAY_CHOICES = (
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday'),
+    )
+    first_day = models.CharField(max_length=10, choices=DAY_CHOICES)
+    second_day = models.CharField(max_length=10, choices=DAY_CHOICES,null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    modified_at = models.DateField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
 
 
