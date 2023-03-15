@@ -58,6 +58,12 @@ urlpatterns += [
     path('add-leave-category/', manage_leave.AddLeaveCategoryView.as_view(), name='add_leave_category'),
     path('update-leave-category/<int:pk>/', manage_leave.UpdateLeaveCategory.as_view(), name='update_leave_category'),
     path('delete-leave-category/<int:pk>/', manage_leave.DeleteLeaveCategoryView.as_view(), name='delete_leave_category'),
+    path('applied-leave-application-list/', manage_leave.AppliedLeaveApplicationView.as_view(), name='applied_leave_application_list'),
+    path('accpted-leave-application-list/', manage_leave.AcceptedLeaveApplicationView.as_view(), name='accepted_leave_application_list'),
+    path('rejected-leave-application-list/', manage_leave.RejectedLeaveApplicationView.as_view(), name='rejected_leave_application_list'),
+    path('leave-application-details/<int:pk>/', manage_leave.AppliedLeaveApplicationDetailsView.as_view(), name='leave_application_details'),
+    path('accept-leave-application/<int:pk>/', manage_leave.AcceptLeaveApplicationView.as_view(), name='accept_leave_application'),
+    path('reject-leave-application/<int:pk>/', manage_leave.RejectLeaveApplicationView.as_view(), name='reject_leave_application'),
 ]
 
 

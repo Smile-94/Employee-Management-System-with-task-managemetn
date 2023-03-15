@@ -1,4 +1,4 @@
-{% extends 'employee_base/base_employee.html' %}
+{% extends 'authority_base/authority_base.html' %}
 {% load static %}
 
 {% block title %} {{title}} {% endblock title %}
@@ -8,9 +8,6 @@
 {% block body %}
 <div class="col-sm-12 col-xl-12">
     <div class="bg-white rounded h-100 p-4">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a class="btn btn-primary" href="{% url 'employee:apply_leave' %}" role="button"><i class="fa-solid fa-arrow-left me-2"></i>Back</a>
-          </div>
         <h5 class="mb-4">Leave Details</h5>
         <table class="table table-striped table-bordered">
             <thead class="table-secondary">
@@ -38,7 +35,11 @@
                 </tr>
                 <tr>
                     <td>Total Days</td>
-                    <td> {{leave.total_days}} </td>
+                    <td> {{leave.total_days}}/{{leave_permonth.allowed_leave}}  (Allowed leave every month: {{leave_permonth.allowed_leave}} days)</td>
+                </tr>
+                <tr>
+                    <td>Leave Category</td>
+                    <td> {{leave.leave_type}} (Taken: {{total_leave_year}}/{{leave.leave_type.permited_days}})</td>
                 </tr>
                 <tr>
                     <td>Accept/Reject Status</td>
@@ -49,7 +50,6 @@
                             rejected
                         {% else %}
                             Pending
-
                         {% endif %}
                     </td>
                 </tr>
@@ -66,9 +66,9 @@
         </div>
         
         {% if leave.declined_status %}
-        <div class="card">
+        <div class="card mt-3">
             <div class="card-header bg-primary">
-                <h6 class="text-white">Leave For</h6>
+                <h6 class="text-white">Rjected For</h6>
             </div>
             <div class="card-body">
               
@@ -83,4 +83,3 @@
 </div>
     
 {% endblock body %}
-    

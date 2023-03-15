@@ -1,0 +1,178 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+{% if accepted %}
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Accept Leave Applicaton</h6>
+        </div>
+    </div>
+        <form method='POST'> {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Accept From</label>
+                    {{form.leave_from | add_class:"form-control"}}
+                </div>
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Accept To</label>
+                    {{form.leave_to | add_class:"form-control"}}
+                </div>
+                <div class="col mt-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mx-auto">
+                <a class="btn btn-primary" href="{% url 'authority:applied_leave_application_list' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Applied Leave</a>
+            </div>
+        </form>
+
+        <div class="table-responsive mt-4">
+            <table class="table text-start table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">SL</th>
+                        <th scope="col">Applied By</th>
+                        <th scope="col">Employee ID</th>
+                        <th scope="col">Leave Category</th>
+                        <th scope="col">Leave From</th>
+                        <th scope="col">Leave To</th>
+                        <th scope="col">Total Days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td> 1 </td>
+                            <td> {{application.application_of.profile.first_name}} {{application.application_of.profile.last_name}}</td>
+                            <td> {{application.employee_id}} </td>
+                            <td> {{application.leave_type}} </td>
+                            <td> {{application.leave_from}} </td>
+                            <td> {{application.leave_to}} </td>
+                            <td> {{application.total_days}} </td>
+                        </tr>
+                </tbody>
+            </table>
+    </div>
+{% elif rejected %}
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Accept Leave Applicaton</h6>
+        </div>
+    </div>
+        <form method='POST'> {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Write Reason of Rejection</label>
+                    {{form.declined_message | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mx-auto">
+                <a class="btn btn-primary" href="{% url 'authority:applied_leave_application_list' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Applied Leave</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+        <div class="table-responsive mt-4">
+            <table class="table text-start table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">SL</th>
+                        <th scope="col">Applied By</th>
+                        <th scope="col">Employee ID</th>
+                        <th scope="col">Leave Category</th>
+                        <th scope="col">Leave From</th>
+                        <th scope="col">Leave To</th>
+                        <th scope="col">Total Days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td> 1 </td>
+                            <td> {{application.application_of.profile.first_name}} {{application.application_of.profile.last_name}}</td>
+                            <td> {{application.employee_id}} </td>
+                            <td> {{application.leave_type}} </td>
+                            <td> {{application.leave_from}} </td>
+                            <td> {{application.leave_to}} </td>
+                            <td> {{application.total_days}} </td>
+                        </tr>
+                </tbody>
+            </table>
+    </div>
+
+    
+                
+    {% else %}
+    <!-- Recent Sales Start -->
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Applied Leave</h6>
+        </div>
+    </div>
+            <!-- Table Start -->
+            {% if applications %}
+            <div class="col-md-12 mb-4">
+                <form class="d-flex">
+                  <div class="row">
+                      <div class="col">
+                          {{applications.form.employee_id |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          {{applications.form.from_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          {{applications.form.to_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                      </div>
+                    </div>
+                </form>
+              </div>
+            <div class="table-responsive">
+                
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Applied By</th>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Leave Category</th>
+                                <th scope="col">Leave From</th>
+                                <th scope="col">Leave To</th>
+                                <th scope="col">Total Days</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications.qs %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td> {{application.application_of.profile.first_name}} {{application.application_of.profile.last_name}} </td>
+                                    <td> {{application.employee_id}} </td>
+                                    <td> {{application.leave_type}} </td>
+                                    <td> {{application.leave_from}} </td>
+                                    <td> {{application.leave_to}} </td>
+                                    <td> {{application.total_days}} </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="{% url 'authority:leave_application_details' application.id %}">Details</a>
+                                        <a class="btn btn-sm btn-primary" href="{% url 'authority:accept_leave_application' application.id %}">Accept</a>
+                                        <a class="btn btn-sm btn-danger" href="{% url 'authority:reject_leave_application' application.id %}">Reject</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h6>No applied found</h6>
+                {% endif %}
+                
+            </div>
+    <!-- Table End -->
+{% endif %}
+
+{% endblock body %}

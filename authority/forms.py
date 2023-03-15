@@ -63,6 +63,15 @@ class LeaveApplicationForm(forms.ModelForm):
         model = LeaveApplication
         fields =('leave_from','leave_to','leave_type','leave_description')
 
+class LeaveAcceptForm(forms.ModelForm):
+    leave_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    leave_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = LeaveApplication
+        fields =('leave_from','leave_to',)
+
+
 class TaskForm(forms.ModelForm):
     deadline = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 

@@ -1,0 +1,143 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+
+{% if rejected %}
+    <!-- Recent Sales Start -->
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Rejected Leave Application</h6>
+        </div>
+    </div>
+            <!-- Table Start -->
+            {% if applications %}
+            <div class="col-md-12 mb-4">
+                <form class="d-flex">
+                  <div class="row">
+                      <div class="col">
+                          {{applications.form.employee_id |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          {{applications.form.from_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          {{applications.form.to_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                      </div>
+                    </div>
+                </form>
+              </div>
+            <div class="table-responsive">
+                
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Applied By</th>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Leave Category</th>
+                                <th scope="col">Leave From</th>
+                                <th scope="col">Leave To</th>
+                                <th scope="col">Total Days</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications.qs %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td> {{application.application_of.profile.first_name}} {{application.application_of.profile.last_name}} </td>
+                                    <td> {{application.employee_id}} </td>
+                                    <td> {{application.leave_type}} </td>
+                                    <td> {{application.leave_from}} </td>
+                                    <td> {{application.leave_to}} </td>
+                                    <td> {{application.total_days}} </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="{% url 'authority:leave_application_details' application.id %}">Details</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h6>No applied found</h6>
+                {% endif %}
+                
+            </div>
+    <!-- Table End -->
+                
+    {% else %}
+    <!-- Recent Sales Start -->
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Accpted Leave Application</h6>
+        </div>
+    </div>
+            <!-- Table Start -->
+            {% if applications %}
+            <div class="col-md-12 mb-4">
+                <form class="d-flex">
+                  <div class="row">
+                      <div class="col">
+                          {{applications.form.employee_id |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          {{applications.form.from_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          {{applications.form.to_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                      </div>
+                    </div>
+                </form>
+              </div>
+            <div class="table-responsive">
+                
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Applied By</th>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Leave Category</th>
+                                <th scope="col">Leave From</th>
+                                <th scope="col">Leave To</th>
+                                <th scope="col">Total Days</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications.qs %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td> {{application.application_of.profile.first_name}} {{application.application_of.profile.last_name}} </td>
+                                    <td> {{application.employee_id}} </td>
+                                    <td> {{application.leave_type}} </td>
+                                    <td> {{application.leave_from}} </td>
+                                    <td> {{application.leave_to}} </td>
+                                    <td> {{application.total_days}} </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="{% url 'authority:leave_application_details' application.id %}">Details</a>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h6>No applied found</h6>
+                {% endif %}
+                
+            </div>
+    <!-- Table End -->
+{% endif %}
+
+{% endblock body %}

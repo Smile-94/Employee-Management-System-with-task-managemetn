@@ -87,7 +87,9 @@
                     <div class="nav-item dropdown">
                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-minus me-2"></i>Manage Leave</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'authority:add_task' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i> Task List</a>
+                            <a href="{% url 'authority:applied_leave_application_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Leave Application</a>
+                            <a href="{% url 'authority:accepted_leave_application_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Accpted Application</a>
+                            <a href="{% url 'authority:rejected_leave_application_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Rejected Application</a>
                             <a href="{% url 'authority:task_employee_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Assign Task</a>
                             <a href="{% url 'authority:add_leave_category' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Leave Category</a>
                         </div>

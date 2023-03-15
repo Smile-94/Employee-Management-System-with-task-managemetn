@@ -6,6 +6,7 @@ from accounts.models import User
 from authority.models import PayrollMonth
 from authority.models import Task
 from authority.models import TaskAssigned
+from authority.models import LeaveApplication
 from authority.models import MonthlyHoliDay
 from employee.models import EmployeeInfo
 
@@ -100,4 +101,13 @@ class MonthlyHoliDayFilter(django_filters.FilterSet):
     class Meta:
         model = MonthlyHoliDay
         fields = ('holiday_name','holiday_month','date')
-        
+
+class LeaveApplicationFilter(django_filters.FilterSet):
+    employee_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
+    from_date = django_filters.DateFilter(field_name='leave_from', lookup_expr='gte', widget=forms.DateInput(attrs={'type': 'date'}), label='From')
+    to_date = django_filters.DateFilter(field_name='leave_from', lookup_expr='lte', widget=forms.DateInput(attrs={'type': 'date'}), label='To')
+
+
+    class Meta:
+        model = LeaveApplication
+        fields = ('employee_id', 'leave_from')
