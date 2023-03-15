@@ -18,9 +18,13 @@ from django.views.generic import UpdateView
 # Models
 from authority.models import LeaveApplication
 from authority.models import LatePresentAndLeave
+from authority.models import Attendance
+from employee.models import EmployeeInfo
 
 # Forms
 from authority.forms import LeaveApplicationForm
+from authority.forms import AttendanceForm
+from authority.forms import ExitAttendanceForm
 
 
 class AddLeaveApplicationView(LoginRequiredMixin, EmployeePassesTestMixin, CreateView):
@@ -91,4 +95,69 @@ class LeaveDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, DetailView):
         context["total_leave_month"] = total_leave_month
         context["total_leave_year"] = total_leave_year
         return context
+
+class GiveAttendaneView(LoginRequiredMixin, EmployeePassesTestMixin, CreateView):
+    model = Attendance
+    form_class = AttendanceForm
+    template_name = 'employee/employee_attendance.html'
+    success_url = reverse_lazy('employee:employee_attendance')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Employee Attendance" 
+        context["attendances"] = Attendance.objects.filter(is_active=True).order_by('-id') 
+        return context
+
+    def form_valid(self, form):
+        employee_id = form.cleaned_data.get('employee_id')
+
+        try:
+            employee_info = EmployeeInfo.objects.get(employee_id=employee_id)
+            
+            if Attendance.objects.filter(date=datetime.today().date(), employee_id=employee_id).exists():
+                messages.error(self.request, f"Attendance already done {datetime.today()}")
+                return self.form_invalid(form)
+
+            if form.is_valid():
+                attendance = form.save(commit=False)
+                attendance.attendance_of = employee_info
+                attendance.date = datetime.today().date()
+                attendance.entering_time = datetime.now().time()
+                attendance.save()
+
+            messages.success(self.request, "Attendance Given Succeffully today ")  
+            return super().form_valid(form)
+
+        except Exception as e:
+            print(e)
+            messages.error(self.request, "Something worng try again")
+            return self.form_invalid(form)
+        
+class GoOutAttendaneView(LoginRequiredMixin, EmployeePassesTestMixin,UpdateView):
+    model = Attendance
+    fields = ('id',)
+    context_object_name= 'attend'
+    template_name = 'employee/employee_attendance.html'
+    success_url = reverse_lazy('employee:employee_attendance')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Employee Attendance"  
+        context["updated"] = True  
+        return context
+
+    def form_valid(self, form):
+        try:
+            if form.is_valid():
+                attendance = form.save(commit=False)
+                attendance.exit_time = datetime.now().time()
+                attendance.save()
+
+            messages.success(self.request, "Go out Succeffully today ")  
+            return super().form_valid(form)
+
+        except Exception as e:
+            print(e)
+            messages.error(self.request, "Something worng try again")
+            return self.form_invalid(form)
     

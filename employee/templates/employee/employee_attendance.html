@@ -1,0 +1,154 @@
+{% extends 'employee_base/base_employee.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+{% if updated %}
+    {% if attend %}
+    <div class="table-responsive">
+            <table class="table text-start table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">SL</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Entry Time</th>
+                        <th scope="col">Exit Time</th>
+                        <th scope="col">Late Present</th>
+                        <th scope="col">Over Time</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        <tr>
+                            <td> {{forloop.counter}} </td>
+                            <td> {{attend.date}} </td>
+                            <td> {{attend.entering_time}} </td>
+                            <td> {{attend.exit_time}} </td>
+                            <td> {{attend.late_present}} </td>
+                            <td> {{attend.over_time}} </td>
+                            <td> 
+                                <div id="deleteForm">
+                                    <form action="" method='POST'> {% csrf_token %}
+                                        <input type="hidden" name="attend_id" value="{{ attend.id }}">
+                                        <a class="btn btn-sm btn-primary" href="{% url 'employee:employee_attendance' %}" role="button">Back</a>
+                                        <button class="btn btn-sm btn-danger" type='submit' id="deleteTask">Exit</button>
+                                    </form>
+                                </div>   
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        {% endif %}
+    
+    {% else %}
+    <!-- Recent Sales Start -->
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Attendance List</h6>
+        </div>
+        <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+            <button type="button" class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-plus"></i>
+               Attendance
+              </button>
+        </div>
+    </div>
+            <!-- Table Start -->
+            {% if attendances %}
+            <div class="table-responsive">
+                
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Entry Time</th>
+                                <th scope="col">Exit Time</th>
+                                <th scope="col">Late Present</th>
+                                <th scope="col">Over Time</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for attend in attendances %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td> {{attend.date}} </td>
+                                    <td> {{attend.entering_time}} </td>
+                                    <td> {{attend.exit_time}} </td>
+                                    <td> {{attend.late_present}} </td>
+                                    <td> {{attend.over_time}} </td>
+                                    <td> 
+                                        {% if not attend.exit_time %}
+                                            <a class="btn btn-primary" href="{% url 'employee:employee_exit' attend.id %}" role="button">Exit</a>
+                                        {% else %}
+                                            Done
+                                        {% endif %}
+                                            
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h6>No Attendance click on Attendance button to give your attendance</h6>
+                {% endif %}
+                
+            </div>
+        {% endif %}
+    <!-- Table End -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header bg-primary ">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Give Attendance</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST"> {% csrf_token %}
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Employee ID</label>
+                        {{form.employee_id |add_class:"form-control"}}
+                    </div>
+                </div> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+      </div>
+    </div>
+</div>
+
+<script>
+    var deleteTask = document.getElementById("deleteTask");
+    var deleteForm = document.getElementById("deleteForm");
+
+    deleteTask.addEventListener("click", function(event) {
+    var result = confirm("Are you sure you want Exit?");
+    if (result) {
+        alert('Exit successfully');
+    } else {
+        alert('Exit Cancelled');
+        event.preventDefault(); // prevent default form submission
+    }
+    });
+
+    deleteForm.addEventListener("submit", function(event) {
+    {% comment %} event.preventDefault(); // prevent default form submission {% endcomment %}
+    });
+ 
+                
+</script>
+ 
+{% endblock body %}
+    
+  

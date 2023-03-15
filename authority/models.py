@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from datetime import timedelta
 import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -182,6 +183,7 @@ class Attendance(models.Model):
     exit_time=models.TimeField(auto_now=False, auto_now_add=False, null=True)
     late_present = models.DurationField(blank=True, null=True)
     over_time = models.DurationField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
 
     def save(self, *args, **kwargs):
@@ -192,9 +194,9 @@ class Attendance(models.Model):
             entry_time = datetime.datetime.combine(datetime.date.today(), self.entering_time)
             late_present = entry_time - start_time
             if late_present > datetime.timedelta(0):
-                self.late_present = late_present
+                self.late_present = timedelta(minutes=(late_present.total_seconds() // 60))
             else:
-                self.late_present = datetime.timedelta(0)
+                self.late_present = timedelta(0)
             self.save()
 
         if not self.over_time and self.exit_time:
@@ -203,9 +205,9 @@ class Attendance(models.Model):
             exit_time = datetime.datetime.combine(datetime.date.today(), self.exit_time)
             over_time = exit_time - end_time
             if over_time > datetime.timedelta(0):
-                self.over_time = over_time
+                self.over_time = timedelta(minutes=(over_time.total_seconds() // 60))
             else:
-                self.over_time = datetime.timedelta(0)
+                self.over_time = timedelta(0)
             self.save()
 
     def __str__(self):

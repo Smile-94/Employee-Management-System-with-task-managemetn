@@ -121,4 +121,15 @@ class WeeklyOffDayForm(forms.ModelForm):
         model = WeeklyOffDay
         fields = ('first_day','second_day')
 
+class AttendanceForm(forms.ModelForm):
+
+    class Meta:
+        model = Attendance
+        fields = ('employee_id',)
+
+class ExitAttendanceForm(forms.ModelForm):
+    employee_id = forms.CharField(widget=forms.TextInput(attrs={'hidden': 'true'}))
+    class Meta:
+        model = Attendance
+        fields = ('employee_id',)
 
