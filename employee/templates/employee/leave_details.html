@@ -38,7 +38,11 @@
                 </tr>
                 <tr>
                     <td>Total Days</td>
-                    <td> {{leave.total_days}} </td>
+                    <td> {{leave.total_days}}/{{leave_permonth.allowed_leave}}  (Allowed leave every month: {{leave_permonth.allowed_leave}} days)</td>
+                </tr>
+                <tr>
+                    <td>Leave Category</td>
+                    <td> {{leave.leave_type}} (Taken: {{total_leave_year}}/{{leave.leave_type.permited_days}})</td>
                 </tr>
                 <tr>
                     <td>Accept/Reject Status</td>

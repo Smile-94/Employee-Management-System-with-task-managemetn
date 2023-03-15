@@ -85,9 +85,8 @@
                 </td>
                 <td>
                   
-                  {% if not leave.approved_status or not leave.declined_status %}
-                    <a class="btn btn-primary" href="{% url 'employee:update_leave_application' leave.id %}" role="button">Edit</a>   
-                    
+                  {% if not leave.approved_status and not leave.declined_status %}
+                    <a class="btn btn-primary" href="{% url 'employee:update_leave_application' leave.id %}" role="button">Edit</a>
                   {% endif %}
                     
                     <a class="btn btn-primary" href="{% url 'employee:leave-details' leave.id %}" role="button">View Details</a>   
