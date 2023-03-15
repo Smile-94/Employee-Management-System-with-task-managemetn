@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'authority.apps.AuthorityConfig',
     'employee.apps.EmployeeConfig',
-    'reciption.apps.ReciptionConfig',
     # Third party apps and packages
     'widget_tweaks',
     'django_filters',

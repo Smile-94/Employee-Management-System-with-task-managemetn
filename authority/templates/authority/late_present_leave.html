@@ -27,6 +27,12 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Over-time Bouns(Tk)/Hour</label>
+                    {{form.over_time_bonus | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="row">
                 <div class="col ">
                     <label for="exampleInputEmail1" class="form-label">Salary Cut for Extra Late Present(Percentage)</label>
                     {{form.late_salary_cut | add_class:"form-control"}}
@@ -115,6 +121,7 @@
                                 <th scope="col">SL</th>
                                 <th scope="col">Allowed Time</th>
                                 <th scope="col">Allowed Days</th>
+                                <th scope="col">Over-time Bonus/hour</th>
                                 <th scope="col">Salary Cut(%)</th>
                                 <th scope="col">Allowed Leave</th>
                                 <th scope="col">Salary Cut</th>
@@ -127,6 +134,7 @@
                                     <td> {{forloop.counter}} </td>
                                     <td> {{leave.allowed_time}} </td>
                                     <td> {{leave.allowed_late}} </td>
+                                    <td> {{leave.over_time_bonus}} Tk </td>
                                     <td> {{leave.late_salary_cut}} </td>
                                     <td> {{leave.allowed_leave}} </td>
                                     <td> {{leave.leave_salary_cut}} </td>
@@ -165,6 +173,12 @@
                     <div class="col">
                         <label for="exampleInputEmail1" class="form-label">Allowed Late Present</label>
                         {{form.allowed_late |add_class:"form-control"}}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Over-time Bouns(Tk)/Hour</label>
+                        {{form.over_time_bonus | add_class:"form-control"}}
                     </div>
                 </div>
                 <div class="row mb-4">

@@ -13,6 +13,7 @@ from authority.models import TaskFeedback
 from authority.models import LatePresentAndLeave
 from authority.models import MonthlyHoliDay
 from authority.models import WeeklyOffDay
+from authority.models import Attendance
 
 # Customs Widgets
 from authority.widgets import DurationWidget
@@ -104,7 +105,7 @@ class LatePresentAndLeaveForm(forms.ModelForm):
 
     class Meta:
         model = LatePresentAndLeave
-        fields = ('allowed_time','allowed_late','allowed_leave','late_salary_cut','leave_salary_cut')
+        fields = ('allowed_time','allowed_late', 'over_time_bonus', 'allowed_leave','late_salary_cut','leave_salary_cut')
 
 
 class MonthlyHolidayForm(forms.ModelForm):

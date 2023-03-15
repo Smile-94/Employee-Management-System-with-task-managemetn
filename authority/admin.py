@@ -12,6 +12,7 @@ from authority.models import TaskFeedback
 from authority.models import LatePresentAndLeave
 from authority.models import MonthlyHoliDay
 from authority.models import WeeklyOffDay
+from authority.models import Attendance
 
 
 # Register your models here.
@@ -71,4 +72,10 @@ class MonthlyHoliDayAdmin(admin.ModelAdmin):
 @admin.register(WeeklyOffDay)
 class WeeklyOffdayAdmin(admin.ModelAdmin):
     list_display = ('first_day','second_day','modified_at')
+
+@admin.register(Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = ('attendance_of', 'employee_id', 'date', 'entering_time', 'exit_time')
+    search_fields = ('attendance_of', 'employee_id')
+    list_per_page = 50
 

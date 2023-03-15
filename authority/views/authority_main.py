@@ -16,9 +16,7 @@ from employee.models import EmployeeInfo
 
 
 # Models Rectiption
-from reciption.models import Attendance
-
-
+from authority.models import Attendance
 
 # Create your views here.
 class AdminView(LoginRequiredMixin, AdminPassesTestMixin, TemplateView):

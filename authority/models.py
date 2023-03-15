@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Models 
 from accounts.models import User
+from employee.models import EmployeeInfo
 
 # Create your models here.
 class PayrollMonth(models.Model):
@@ -127,11 +128,13 @@ class LatePresentAndLeave(models.Model):
     allowed_time = models.DurationField()
     allowed_late = models.PositiveIntegerField()
     allowed_leave = models.PositiveIntegerField()
+    over_time_bonus = models.PositiveIntegerField(null=True)
     late_salary_cut = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     leave_salary_cut = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     created_at = models.DateField(auto_now_add=True)
     modified_at = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=True)
+
 
 class MonthlyHoliDay(models.Model):
     MONTH_CHOICES = [
@@ -168,6 +171,45 @@ class WeeklyOffDay(models.Model):
     created_at = models.DateField(auto_now_add=True)
     modified_at = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=True)
+
+
+# Create your models here.
+class Attendance(models.Model):
+    attendance_of=models.ForeignKey(EmployeeInfo,on_delete=models.CASCADE,related_name='attendance')
+    employee_id=models.CharField(max_length=50)
+    date=models.DateField(auto_now=False, auto_now_add=False)
+    entering_time=models.TimeField(auto_now=False, auto_now_add=False,null=True)
+    exit_time=models.TimeField(auto_now=False, auto_now_add=False, null=True)
+    late_present = models.DurationField(blank=True, null=True)
+    over_time = models.DurationField(blank=True, null=True)
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.late_present:
+            office_time = OfficeTime.objects.filter(is_active=True).order_by('-id').first()
+            start_time = datetime.datetime.combine(datetime.date.today(), office_time.office_start)
+            entry_time = datetime.datetime.combine(datetime.date.today(), self.entering_time)
+            late_present = entry_time - start_time
+            if late_present > datetime.timedelta(0):
+                self.late_present = late_present
+            else:
+                self.late_present = datetime.timedelta(0)
+            self.save()
+
+        if not self.over_time and self.exit_time:
+            office_time = OfficeTime.objects.filter(is_active=True).order_by('-id').first()
+            end_time = datetime.datetime.combine(datetime.date.today(), office_time.office_end)
+            exit_time = datetime.datetime.combine(datetime.date.today(), self.exit_time)
+            over_time = exit_time - end_time
+            if over_time > datetime.timedelta(0):
+                self.over_time = over_time
+            else:
+                self.over_time = datetime.timedelta(0)
+            self.save()
+
+    def __str__(self):
+        return str(self.attendance_of)
 
 
 
