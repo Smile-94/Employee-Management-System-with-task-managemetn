@@ -1,0 +1,239 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+{% if updated %}
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Update Employee Attendance</h6>
+        </div>
+    </div>
+        <form method='POST'> {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col " name="myField">
+                    <label for="exampleInputEmail1" class="form-label">Employee ID</label>
+                    {{ form.employee_id|add_class:"form-control"|attr:"readonly:true" }}
+                    
+                </div>
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Date</label>
+                    {{form.date | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Entering Time</label>
+                    {{form.entering_time | add_class:"form-select"}}
+                </div>
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Exit Time</label>
+                    {{form.exit_time | add_class:"form-control"}}
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mx-auto">
+                <a class="btn btn-primary" href="{% url 'authority:add_authority_attendance' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back to Attendance</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    {% elif deleted %}
+        <div class="row">
+            <div class="col-md-4">
+                <h6 class="mb-4">Employee Attendance</h6>
+            </div>
+            <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+                <a class="btn btn-sm btn-primary" href="{% url 'authority:add_authority_attendance' %}"><i class="fa-solid fa-arrow-left me-2"></i> Back To Attendance</a>
+                
+            </div>
+        </div>
+         
+        {% if attendance %}
+             <!-- Table Start -->
+            <div class="table-responsive">
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Employee Name</th>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Entering Time</th>
+                                <th scope="col">Exit Time</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> {{attendance.attendance_of.info_of.profile.first_name}} {{attendance.attendance_of.info_of.profile.last_name}} </td>
+                                    <td> {{attendance.employee_id}} </td>
+                                    <td> {{attendance.date}} </td>
+                                    <td> {{attendance.entering_time}} </td>
+                                    <td> {{attendance.exit_time}} </td>
+                                    <td>
+                                        <div id="deleteForm">
+                                            <form action="" method='POST'> {% csrf_token %}
+                                                <button class="btn btn-sm btn-danger" type='submit' id="deleteTask">Delete</button>
+                                            </form>
+                                        </div> 
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+            </div>
+        {% endif %}
+    <!-- Table End --> 
+                    
+    {% else %}
+    <!-- Recent Sales Start -->
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Employee Attendance List</h6>
+        </div>
+        <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-plus"></i>
+               Attendance
+              </button>
+        </div>
+    </div>
+            <!-- Table Start -->
+            {% if attendances %}
+            <div class="col-md-12 mb-4">
+                <form class="d-flex">
+                  <div class="row">
+                      <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Employee ID</label>
+                          {{attendances.form.employee_id |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Filter From</label>
+                          {{attendances.form.from_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Filter To</label>
+                          {{attendances.form.to_date |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Entering Time</label>
+                          {{attendances.form.entering_time |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Exit Time</label>
+                          {{attendances.form.exit_time |add_class:"form-control"}}
+                      </div>
+                      <div class="col">
+                          <button class="btn btn-success mt-4 ms-2" type="submit">Search</button>
+                      </div>
+                    </div>
+                </form>
+              </div>
+              <div class="table-responsive">
+                
+                <table class="table text-start table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-dark">
+                            <th scope="col">SL</th>
+                            <th scope="col">Employee Name</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Entry Time</th>
+                            <th scope="col">Exit Time</th>
+                            <th scope="col">Late Present</th>
+                            <th scope="col">Over Time</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attend in attendances.qs %}
+                            <tr>
+                                <td> {{forloop.counter}} </td>
+                                <td> {{attend.attendance_of.info_of.profile.first_name}} {{attend.attendance_of.info_of.profile.last_name}}</td>
+                                <td> {{attend.employee_id}} </td>
+                                <td> {{attend.date}} </td>
+                                <td> {{attend.entering_time}} </td>
+                                <td> {{attend.exit_time}} </td>
+                                <td> {{attend.late_present}} </td>
+                                <td> {{attend.over_time}} </td>
+                                <td> 
+                                    <a class="btn btn-primary" href="{% url 'authority:update_authority_attendance' attend.id %}" role="button">Edit</a>
+                                    <a class="btn btn-danger" href="{% url 'authority:delete_authority_attendance' attend.id %}" role="button">Delete</a>
+                                        
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h6>No Attendance click on Attendance button to give your attendance</h6>
+            {% endif %}
+            
+        </div>
+    <!-- Table End -->
+{% endif %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header bg-primary ">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Add Monthly Holiday</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST"> {% csrf_token %}
+                <div class="row">
+                    <div class="col ">
+                        <label for="exampleInputEmail1" class="form-label">Employee ID</label>
+                        {{form.employee_id | add_class:"form-control"}}
+                    </div>
+                    <div class="col ">
+                        <label for="exampleInputEmail1" class="form-label">Date</label>
+                        {{form.date | add_class:"form-control"}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Entering Time</label>
+                        {{form.entering_time | add_class:"form-select"}}
+                    </div>
+                    <div class="col mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Exit Time</label>
+                        {{form.exit_time | add_class:"form-control"}}
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+      </div>
+    </div>
+</div>
+
+  <script>
+    var deleteTask = document.getElementById("deleteTask");
+    var deleteForm = document.getElementById("deleteForm");
+
+    deleteTask.addEventListener("click", function(event) {
+    var result = confirm("Are you sure you want delete Attendance?");
+    if (result) {
+        alert('Deleted successfully');
+    } else {
+        alert('Deletion Cancelled');
+        event.preventDefault(); // prevent default form submission
+    }
+    });
+
+    deleteForm.addEventListener("submit", function(event) {
+    {% comment %} event.preventDefault(); // prevent default form submission {% endcomment %}
+    });
+ 
+              
+</script>
+  
+{% endblock body %}

@@ -121,6 +121,15 @@ class WeeklyOffDayForm(forms.ModelForm):
         model = WeeklyOffDay
         fields = ('first_day','second_day')
 
+class AuthorityAttendanceForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    entering_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+    exit_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+
+    class Meta:
+        model = Attendance
+        exclude = ('attendance_of','late_present','over_time','is_active')
+
 class AttendanceForm(forms.ModelForm):
 
     class Meta:

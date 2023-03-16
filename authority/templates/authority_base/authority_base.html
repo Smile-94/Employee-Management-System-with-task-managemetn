@@ -94,6 +94,12 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-minus me-2"></i>Attendance</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'authority:add_authority_attendance' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Attendance</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-gear me-2"></i>Settings</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'authority:add_late_present_and_leave' %}" class="dropdown-item"><i class="fa-solid fa-plus me-2"></i>Late Present & Leave</a>

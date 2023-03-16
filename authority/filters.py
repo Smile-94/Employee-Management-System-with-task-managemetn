@@ -8,6 +8,7 @@ from authority.models import Task
 from authority.models import TaskAssigned
 from authority.models import LeaveApplication
 from authority.models import MonthlyHoliDay
+from authority.models import Attendance
 from employee.models import EmployeeInfo
 
 
@@ -111,3 +112,17 @@ class LeaveApplicationFilter(django_filters.FilterSet):
     class Meta:
         model = LeaveApplication
         fields = ('employee_id', 'leave_from')
+
+
+class AttendanceFilter(django_filters.FilterSet):
+    employee_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
+    from_date = django_filters.DateFilter(field_name='date', lookup_expr='gte', widget=forms.DateInput(attrs={'type': 'date'}), label='From')
+    to_date = django_filters.DateFilter(field_name='date', lookup_expr='lte', widget=forms.DateInput(attrs={'type': 'date'}), label='To')
+    entering_time = django_filters.TimeFilter(widget=forms.TimeInput(attrs={'type': 'time'}))
+    exit_time = django_filters.TimeFilter(widget=forms.TimeInput(attrs={'type': 'time'}))
+    
+
+
+    class Meta:
+        model = Attendance
+        fields = ('employee_id','date','entering_time','exit_time')

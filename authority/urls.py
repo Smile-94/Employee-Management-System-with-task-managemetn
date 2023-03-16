@@ -7,6 +7,7 @@ from authority.views import admin_settings
 from authority.views import payroll_settings
 from authority.views import manage_task
 from authority.views import manage_leave
+from authority.views import manage_attendance
 
 
 app_name = 'authority'
@@ -64,6 +65,13 @@ urlpatterns += [
     path('leave-application-details/<int:pk>/', manage_leave.AppliedLeaveApplicationDetailsView.as_view(), name='leave_application_details'),
     path('accept-leave-application/<int:pk>/', manage_leave.AcceptLeaveApplicationView.as_view(), name='accept_leave_application'),
     path('reject-leave-application/<int:pk>/', manage_leave.RejectLeaveApplicationView.as_view(), name='reject_leave_application'),
+]
+
+# manage attendance 
+urlpatterns += [
+    path('add_authority_attendance/', manage_attendance.AuthorityAddAttendanceView.as_view(), name='add_authority_attendance' ),
+    path('update_authority_attendance/<int:pk>/', manage_attendance.AuthorityUpdateAttendanceView.as_view(), name='update_authority_attendance' ),
+    path('delete_authority_attendance/<int:pk>/', manage_attendance.DeleteAuthorityAttendanceView.as_view(), name='delete_authority_attendance' ),
 ]
 
 
