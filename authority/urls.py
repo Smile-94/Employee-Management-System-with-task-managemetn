@@ -34,6 +34,11 @@ urlpatterns += [
 urlpatterns += [
     #Monthly Salary
     path('employee-lsit-salary/', manage_salary.SalaryEmployeeListView.as_view(), name="employee_list_salary" ),
+    path('calculate-monthly-salary/<int:pk>/', manage_salary.CalculateMonthlySalaryView.as_view(), name="calculate_monthly_salary" ),
+    path('calculated-monthly-salary/', manage_salary.MonthlyCalculatedSalaryListView.as_view(), name="calculated_monthly_salary" ),
+    path('monthly-salary-details/<int:pk>/', manage_salary.MonthlySalaryDetailsView.as_view(), name="monthly_salary_details" ),
+    path('monthly-salary-update/<int:pk>/', manage_salary.UpdateCalculatedSalaryView.as_view(), name="monthly_salary_update" ),
+    path('delete-calculated-salary/<int:pk>/', manage_salary.DeleteCalculatedSalaryView.as_view(), name="delete_calculated_salary" ),
     #Payroll Month
     path('add-payroll-month/', payroll_settings.AddPayrollMonthView.as_view(), name='add_payrollmonth'),
     path('update-payroll-month/<int:pk>/', payroll_settings.UpdatePayrollMonthView.as_view(), name='update_payrollmonth'), 

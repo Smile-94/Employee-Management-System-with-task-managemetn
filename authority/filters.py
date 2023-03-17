@@ -9,6 +9,7 @@ from authority.models import TaskAssigned
 from authority.models import LeaveApplication
 from authority.models import MonthlyHoliDay
 from authority.models import Attendance
+from authority.models import MonthlySalary
 from employee.models import EmployeeInfo
 from employee.models import DesignationInfo
 
@@ -161,5 +162,30 @@ class SalaryEmployeeFilters(django_filters.FilterSet):
         
         if employee_id_value:
             queryset = queryset.filter(employee_id=employee_id_value)
+        
+        return queryset
+
+
+class CalculatedMonthlySalaryFilter(django_filters.FilterSet):
+
+    employee_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
+   
+    class Meta:
+        model = MonthlySalary
+        fields =( 'employee_id', 'salary_month', 'festival_bonus')
+    
+    def filter_queryset(self, queryset):
+        employee_id_value = self.data.get('employee_id')
+        salary_month_value = self.data.get('salary_month')
+        festival_bonus_value = self.data.get('festival_bonus')
+
+        if employee_id_value:
+            queryset = queryset.filter(salary_employee__employee_id=employee_id_value)
+        
+        if salary_month_value:
+            queryset = queryset.filter(salary_month=salary_month_value)
+
+        if festival_bonus_value:
+            queryset = queryset.filter(festival_bonus=festival_bonus_value)
         
         return queryset

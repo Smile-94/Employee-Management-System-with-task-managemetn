@@ -210,8 +210,3 @@ class DeleteEmployeeView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
         context["title"] = "Delete User" 
         context["deleted"] = True 
         return context
-
-    def form_valid(self, form):
-        self.object.is_active = False
-        self.object.save()
-        return redirect(self.success_url)

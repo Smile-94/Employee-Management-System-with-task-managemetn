@@ -30,7 +30,12 @@ class PayrollMonth(models.Model):
     year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(2100)])
     from_date=models.DateField(auto_now=False, auto_now_add=False)
     to_date=models.DateField(auto_now=False, auto_now_add=False)
+    total_days=models.IntegerField(default=0)
     active_status=models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        self.total_days = (self.to_date - self.from_date).days + 1
+        super(PayrollMonth, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(f"{self.month}, {self.year}")
@@ -43,7 +48,7 @@ class FestivalBonus(models.Model):
     is_active=models.BooleanField(default=True)
 
     def __str__(self):
-        return str(f" {self.festival_name}, {self.bonus_percentage}% ")
+        return self.festival_name
 
 class OfficeTime(models.Model):
     office_start=models.TimeField(auto_now=False, auto_now_add=False)
@@ -220,12 +225,11 @@ class Attendance(models.Model):
     def __str__(self):
         return str(self.attendance_of)
 
-
 class MonthlySalary(models.Model):
     salary_employee = models.ForeignKey(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_employee')
-    salary_month = models.ForeignKey(PayrollMonth, on_delete=models.CASCADE, related_name='salary_month')
+    salary_month = models.ForeignKey(PayrollMonth, on_delete=models.CASCADE, related_name='salary_month', limit_choices_to={'active_status': True})
     salary_of = models.ForeignKey(EmployeeSalary, on_delete=models.CASCADE, related_name='base_salary', null=True)
-    festival_bonus = models.ForeignKey(FestivalBonus, on_delete=models.CASCADE, related_name='festival_bonus', blank=True, null=True)
+    festival_bonus = models.ForeignKey(FestivalBonus, on_delete=models.CASCADE, related_name='festival_bonus', blank=True, null=True, limit_choices_to={'is_active': True})
     prepared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='prepared_by',null=True)
     total_conveyance = models.FloatField()
     total_food_allowance = models.FloatField()

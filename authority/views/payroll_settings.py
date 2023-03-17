@@ -149,7 +149,7 @@ class DeleteFestivalBonusView(LoginRequiredMixin, AdminPassesTestMixin, DeleteVi
         return context
 
     def form_valid(self, form):
-        self.object.active_status = False
+        self.object.is_active = False
         self.object.save()
         return redirect(self.success_url)
     
