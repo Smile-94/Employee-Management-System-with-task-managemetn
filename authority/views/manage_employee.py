@@ -12,6 +12,7 @@ from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
 
 # Permission and Authentication
@@ -64,7 +65,7 @@ class AddEmpolyeeView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
    
 
 class EmployeeListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_active=True)
     filterset_class = EmployeeListFilter
     template_name = 'authority/employee_list.html'
 
@@ -197,3 +198,20 @@ class EditEmployeeSalaryView(LoginRequiredMixin, AdminPassesTestMixin, UpdateVie
     def form_invalid(self, form):
         messages.error(self.request, "Something goes wrong try again")
         return super().form_invalid(form)
+
+class DeleteEmployeeView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= User
+    context_object_name ='employee'
+    template_name='authority/delete_user.html'
+    success_url= reverse_lazy('authority:employee_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete User" 
+        context["deleted"] = True 
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)

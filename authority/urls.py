@@ -5,6 +5,7 @@ from authority.views import authority_main
 from authority.views import manage_employee
 from authority.views import admin_settings
 from authority.views import payroll_settings
+from authority.views import manage_salary
 from authority.views import manage_task
 from authority.views import manage_leave
 from authority.views import manage_attendance
@@ -25,11 +26,15 @@ urlpatterns += [
     path('edit_employee/<int:pk>/', manage_employee.EditEmployeeView.as_view(), name='edit_employee'),
     path('edit_address/<int:pk>/', manage_employee.EditEmployeeAddressView.as_view(), name='edit_address'),
     path('edit_salary/<int:pk>/', manage_employee.EditEmployeeSalaryView.as_view(), name='edit_salary'),
+    path('delete-employee/<int:pk>/', manage_employee.DeleteEmployeeView.as_view(), name='delete_employee'),
 ]
 
 
 # Add, Update, Delete Payroll Months
 urlpatterns += [
+    #Monthly Salary
+    path('employee-lsit-salary/', manage_salary.SalaryEmployeeListView.as_view(), name="employee_list_salary" ),
+    #Payroll Month
     path('add-payroll-month/', payroll_settings.AddPayrollMonthView.as_view(), name='add_payrollmonth'),
     path('update-payroll-month/<int:pk>/', payroll_settings.UpdatePayrollMonthView.as_view(), name='update_payrollmonth'), 
     path('festival-bonus/', payroll_settings.FestivalBonusView.as_view(), name='festival_bonus'),

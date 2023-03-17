@@ -1,0 +1,99 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <!-- Recent Sales Start -->
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Employee List</h6>
+        </div>
+        <div class="col-md-12 mb-4">
+            <form class="d-flex">
+              <div class="row">
+                  <div class="col">
+                      {{employees.form.employee_id |add_class:"form-control"}}
+                  </div>
+                  <div class="col">
+                      {{employees.form.department |add_class:"form-select"}}
+                  </div>
+                  <div class="col">
+                      <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                  </div>
+                </div>
+            </form>
+          </div>
+    </div>
+            <!-- Table Start -->
+            <div class="table-responsive">
+                {% if employees %}
+                    <table class="table text-start table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">SL</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Department</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for employee in employees.qs %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td> {{employee.info_of.profile.first_name}} {{employee.info_of.profile.last_name}}</td>
+                                    <td> {{employee.employee_id}} </td>
+                                    <td> {{employee.position.designation}} </td>
+                                    <td> {{employee.position.department}} </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="#">View</a>
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <i class="fa-solid fa-plus"></i>
+                                           Add Salary
+                                          </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h6>No Employee Found Add Employee</h6>
+                {% endif %}
+                
+            </div>
+    <!-- Table End -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header bg-primary ">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Add Salary</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST"> {% csrf_token %}
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Allowed Time</label>
+                        {{form.salary_month |add_class:"form-select"}}
+                    </div>
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Allowed Time</label>
+                        {{form.festival_bonus |add_class:"form-select"}}
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+      </div>
+    </div>
+</div>
+{% endblock body %}

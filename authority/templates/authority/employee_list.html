@@ -40,7 +40,7 @@
                         <a class="btn btn-success" href="{% url 'authority:edit_employee' employee.id %}" role="button">Edit</a>
                         <a class="btn btn-success" href="{% url 'authority:edit_address' employee.id %}" role="button">Address</a>
                         <a class="btn btn-success" href="{% url 'authority:edit_salary' employee.id %}" role="button">Salary</a>
-                        <a class="btn btn-danger" href="#" role="button">Delete</a>
+                        <a class="btn btn-danger" href="{% url 'authority:delete_employee' employee.id %}" role="button">Delete</a>
                     </td>
                   </tr>
                 {% endfor %}     
