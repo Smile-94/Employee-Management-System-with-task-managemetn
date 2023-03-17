@@ -78,12 +78,14 @@ class UpdatePayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, UpdateVie
 
 class DeletePayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
     model= PayrollMonth
-    template_name = "authority/delete_payrollmonth.html"
-    success_url = reverse_lazy('authority:payrollmonth_list')
+    context_object_name = 'month'
+    template_name='authority/payroll_month.html'
+    success_url= reverse_lazy('authority:add_payrollmonth')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Delete Payroll Month" 
+        context["deleted"] = True
         return context
 
     def form_valid(self, form):
@@ -133,6 +135,23 @@ class FestivalBonusUpdateView(LoginRequiredMixin, AdminPassesTestMixin, UpdateVi
     def form_invalid(self, form):
         messages.error(self.request, 'Festival Bonus not updated try again !')
         return super().form_invalid(form)
+
+class DeleteFestivalBonusView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= FestivalBonus
+    context_object_name = 'festival'
+    template_name = 'authority/festival_bonus.html'
+    success_url = reverse_lazy('authority:festival_bonus')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Festival Bonus" 
+        context["deleted"] = True
+        return context
+
+    def form_valid(self, form):
+        self.object.active_status = False
+        self.object.save()
+        return redirect(self.success_url)
     
 
 class AddMonthlyHolidayView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):

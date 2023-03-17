@@ -37,8 +37,10 @@ urlpatterns += [
     #Payroll Month
     path('add-payroll-month/', payroll_settings.AddPayrollMonthView.as_view(), name='add_payrollmonth'),
     path('update-payroll-month/<int:pk>/', payroll_settings.UpdatePayrollMonthView.as_view(), name='update_payrollmonth'), 
+    path('delete-payroll-month/<int:pk>/', payroll_settings.DeletePayrollMonthView.as_view(), name='delete_payrollmonth'), 
     path('festival-bonus/', payroll_settings.FestivalBonusView.as_view(), name='festival_bonus'),
     path('festival-update/<int:pk>/', payroll_settings.FestivalBonusUpdateView.as_view(), name='update_festival'),
+    path('delete-update/<int:pk>/', payroll_settings.DeleteFestivalBonusView.as_view(), name='delete_festival'),
     # MonthlyHoliDay
     path('add-monthly-holiday/', payroll_settings.AddMonthlyHolidayView.as_view(), name='add_monthly_holiday'),
     path('update-monthly-holiday/<int:pk>/', payroll_settings.UpdateMonthlyHolidayView.as_view(), name='update_monthly_holiday'),
