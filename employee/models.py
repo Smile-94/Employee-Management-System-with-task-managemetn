@@ -2,11 +2,15 @@ from django.db import models
 import datetime
 from django.core.validators import MinValueValidator
 from django.core.validators import MaxValueValidator
+
+# Models
 from accounts.models import User
+
 
 
 # utils functions
 from employee.utils import user_directory_path
+
 
 
 DEPARTMENT_OPT = (
@@ -74,6 +78,8 @@ class EmployeeSalary(models.Model):
 
     def __str__(self):
         return str(self.salary_of)
+
+
 
 
 

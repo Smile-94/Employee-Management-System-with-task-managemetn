@@ -14,6 +14,7 @@ from authority.models import LatePresentAndLeave
 from authority.models import MonthlyHoliDay
 from authority.models import WeeklyOffDay
 from authority.models import Attendance
+from authority.models import MonthlySalary
 
 # Customs Widgets
 from authority.widgets import DurationWidget
@@ -141,4 +142,10 @@ class ExitAttendanceForm(forms.ModelForm):
     class Meta:
         model = Attendance
         fields = ('employee_id',)
+
+class MonthlySalaryForm(forms.ModelForm):
+
+    class Meta:
+        model = MonthlySalary
+        fields = ('salary_month','festival_bonus')
 

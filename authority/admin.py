@@ -13,6 +13,7 @@ from authority.models import LatePresentAndLeave
 from authority.models import MonthlyHoliDay
 from authority.models import WeeklyOffDay
 from authority.models import Attendance
+from authority.models import MonthlySalary
 
 
 # Register your models here.
@@ -78,4 +79,9 @@ class AttendanceAdmin(admin.ModelAdmin):
     list_display = ('attendance_of', 'employee_id', 'date', 'entering_time', 'exit_time')
     search_fields = ('attendance_of', 'employee_id')
     list_per_page = 50
+
+@admin.register(MonthlySalary)
+class MonthlySalaryAdmin(admin.ModelAdmin):
+    list_display = ('salary_employee', 'salary_month','salary_of','total_salary')
+    search_fields = ('salary_employee',)
 

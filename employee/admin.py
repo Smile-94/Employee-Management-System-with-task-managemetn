@@ -3,6 +3,7 @@ from employee.models import DesignationInfo
 from employee.models import EmployeeInfo
 from employee.models import EmployeeSalary
 
+
 # Register your models here.
 @admin.register(EmployeeInfo)
 class EmployeeInfoAdmin(admin.ModelAdmin):
@@ -17,4 +18,9 @@ class DesignationAdmin(admin.ModelAdmin):
     search_fields=('designation','department')
     list_per_page=50
     
-admin.site.register(EmployeeSalary)
+@admin.register(EmployeeSalary)
+class EmployeeSalaryAdmin(admin.ModelAdmin):
+    list_display = ('salary_of', 'basic_salary','conveyance','food_allowance','medical_allowance','house_rent','mobile_allowance')
+    search_fields = ('salary_of',)
+    list_per_page = 50
+

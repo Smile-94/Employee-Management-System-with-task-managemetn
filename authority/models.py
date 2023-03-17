@@ -7,25 +7,26 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Models 
 from accounts.models import User
 from employee.models import EmployeeInfo
+from employee.models import EmployeeSalary
 
 # Create your models here.
 class PayrollMonth(models.Model):
     MONTH_CHOICES = [
-        ('Jan', 'January'),
-        ('Feb', 'February'),
-        ('Mar', 'March'),
-        ('Apr', 'April'),
+        ('January', 'January'),
+        ('February', 'February'),
+        ('March', 'March'),
+        ('April', 'April'),
         ('May', 'May'),
-        ('Jun', 'June'),
-        ('Jul', 'July'),
-        ('Aug', 'August'),
-        ('Sep', 'September'),
-        ('Oct', 'October'),
-        ('Nov', 'November'),
-        ('Dec', 'December'),
+        ('June', 'June'),
+        ('July', 'July'),
+        ('August', 'August'),
+        ('September', 'September'),
+        ('October', 'October'),
+        ('November', 'November'),
+        ('December', 'December'),
     ]
 
-    month=models.CharField(max_length=3, choices=MONTH_CHOICES, default='Jan')
+    month=models.CharField(max_length=10, choices=MONTH_CHOICES, default='Jan')
     year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(2100)])
     from_date=models.DateField(auto_now=False, auto_now_add=False)
     to_date=models.DateField(auto_now=False, auto_now_add=False)
@@ -212,6 +213,30 @@ class Attendance(models.Model):
 
     def __str__(self):
         return str(self.attendance_of)
+
+
+class MonthlySalary(models.Model):
+    salary_employee = models.ForeignKey(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_employee')
+    salary_month = models.ForeignKey(PayrollMonth, on_delete=models.CASCADE, related_name='salary_month')
+    salary_of = models.ForeignKey(EmployeeSalary, on_delete=models.CASCADE, related_name='base_salary', null=True)
+    festival_bonus = models.ForeignKey(FestivalBonus, on_delete=models.CASCADE, related_name='festival_bonus', blank=True, null=True)
+    prepared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='prepared_by',null=True)
+    total_conveyance = models.FloatField()
+    total_food_allowance = models.FloatField()
+    total_medical_allowance = models.FloatField()
+    total_house_rent = models.FloatField()
+    total_mobile_allowance = models.FloatField()
+    total_bonus = models.FloatField(default=0.0)
+    late_present_diduct = models.FloatField(default=0.0)
+    extra_leave_diduct = models.FloatField(default=0.0)
+    total_diduct = models.FloatField(null=True)
+    total_salary = models.FloatField(null=True)
+    total_absence = models.IntegerField(null=True)
+    extra_late_present = models.IntegerField(null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.salary_employee)+","+str(self.salary_month)
 
 
 
