@@ -48,6 +48,7 @@ urlpatterns += [
 # manage task
 urlpatterns += [
     path('add-task/', manage_task.TaskCreateView.as_view(), name='add_task'),
+    path('task-details/<int:pk>/', manage_task.TaskDetailView.as_view(), name='task_details'),
     path('update-task/<int:pk>/', manage_task.TaskUpdateView.as_view(), name='update_task'),
     path('delete-task/<int:pk>/', manage_task.TaskDeleteView.as_view(), name='delete_task'),
     path('task-employee-list/', manage_task.EmployeeTaskListView.as_view(), name='task_employee_list'),

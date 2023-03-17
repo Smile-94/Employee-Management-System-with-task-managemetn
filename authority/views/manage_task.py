@@ -60,8 +60,16 @@ class TaskCreateView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
         messages.error(self.request, "Task not added try again")
         return super().form_invalid(form)
 
-class TaskDetailView(DetailView):
-    pass
+class TaskDetailView(LoginRequiredMixin, AdminPassesTestMixin, DetailView):
+    model = Task
+    template_name = 'authority/task_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Task Details" 
+        return context
+    
+    
 
 class TaskUpdateView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = Task

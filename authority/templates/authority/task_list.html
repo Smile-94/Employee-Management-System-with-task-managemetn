@@ -67,13 +67,13 @@
         </form>
       </div>
     
-    <table class="table table table-hover ">
+    <table class="table table-bordered table-hover ">
         <thead class="table-dark">
             <tr>
               <th scope="col">Sl</th>
               <th scope="col">Task ID</th>
-              <th scope="col">Assigned To</th>
-              <th scope="col">Dadeline</th>
+              <th scope="col">Create By</th>
+              <th scope="col">Deadline</th>
               <th scope="col">Task Heading</th>
               <th scope="col">Action</th>
             </tr>
@@ -84,13 +84,13 @@
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
                     <td> {{task.task_id}} </td>
-                    <td> {{task.assigned_to}} </td>
-                    <td>{{task.dadeline}}</td>
+                    <td> {{task.create_by.profile.first_name}}  {{task.create_by.profile.last_name}}</td>
+                    <td>{{task.deadline}}</td>
                     <td>{{task.heading}}</td>
                     <td>
-                        <a class="btn btn-primary" href="#" role="button"><i class="fa-solid fa-eye"></i>Details</a>
-                        <a class="btn btn-primary" href="{% url 'authority:update_task' task.id %}" role="button"><i class="fa-solid fa-pen-to-square me-2"></i>Edit</a>
-                        <a class="btn btn-danger" href="{% url 'authority:delete_task' task.id %}" role="button"><i class="fa-solid fa-trash me-2"></i>Delete</a>
+                        <a class="btn btn-sm btn-primary" href="{% url 'authority:task_details' task.id %}" role="button">Details</a>
+                        <a class="btn btn-sm btn-primary" href="{% url 'authority:update_task' task.id %}" role="button">Edit</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'authority:delete_task' task.id %}" role="button">Delete</a>
                     </td>
                   </tr>
                 {% endfor %}     
