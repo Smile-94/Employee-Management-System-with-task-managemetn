@@ -27,16 +27,16 @@
         <div class="col-sm-6 col-xl-3">
             <div class="bg-primary text-white rounded d-flex align-items-center justify-content-between p-4">
                 <div class="ms-3">
-                    <p class="mb-2">Leave</p>
-                    <h6 class="mb-0"> {{total_leave}} </h6>
+                    <p class="mb-2">Date</p>
+                    <h6 class="mb-0"> <span id="date"></span></h6>
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-xl-3">
             <div class="bg-primary text-white rounded d-flex align-items-center justify-content-between p-4">
                 <div class="ms-3">
-                    <p class="mb-2">Total Revenue</p>
-                    <h6 class="mb-0">$1234</h6>
+                    <p class="mb-2">Clock</p>
+                    <h6 class="mb-0"><span id="clock"></span> </h6>
                 </div>
             </div>
         </div>
@@ -69,14 +69,33 @@
         <div class="col-sm-6 col-xl-3">
             <div class="bg-primary text-white rounded d-flex align-items-center justify-content-between p-4">
                 <div class="ms-3">
-                    <p class="mb-2">Total Revenue</p>
-                    <h6 class="mb-0">$1234</h6>
+                    <p class="mb-2">Leave</p>
+                    <h6 class="mb-0"> {{total_leave}} /{{leave_permited}}</h6>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Sale & Revenue End -->
+
+<script>
+    function showTime() {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const second = now.getSeconds();
+        const meridiem = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12; // Convert to 12-hour format
+        const timeString = `${hour12}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')} ${meridiem}`;
+        document.getElementById('clock').textContent = timeString;
+      }
+      
+      setInterval(showTime, 1000); // Update every second
+
+      const currentDate = new Date().toLocaleDateString();
+      document.querySelector('#date').textContent = currentDate;
+      
+</script>
 
 
 {% endblock body %}

@@ -4,12 +4,20 @@ from django.urls import path
 from employee.views import employee_main
 from employee.views import manage_leave
 from employee.views import manage_task
+from employee.views import manage_salary
+from employee.views import manage_profile
+from employee.views import others_settings
 
 app_name='employee'
 
 urlpatterns = [
     path('employee/', employee_main.EmployeeHomeView.as_view(), name='employee')
     
+]
+
+# Manage Profile
+urlpatterns += [
+    path('profile-details-employee/<int:pk>/', manage_profile.EmployeeProfileDetailsView.as_view(), name='profile_details_emplyee') 
 ]
 
 # Manage Task
@@ -31,3 +39,18 @@ urlpatterns += [
     path('employee-attendance', manage_leave.GiveAttendaneView.as_view(), name="employee_attendance" ),
     path('employee-exit/<int:pk>/', manage_leave.GoOutAttendaneView.as_view(), name="employee_exit" ),
 ]
+
+# manage Salary
+urlpatterns += [
+    path('employee-monthly-salary/', manage_salary.MonthlyCalculatedSalaryListView.as_view(), name='employee_monthly_salary' ),
+    path('employee-monthly-salary-details/<int:pk>/', manage_salary.MonthlySalaryDetailsView.as_view(), name='employee_monthly_salary_detail' )
+    
+]
+
+# others
+urlpatterns += [
+    path('employee-holiday/', others_settings.EmployeeMonthlyHolidayView.as_view(), name='employee_monthly_holiday' ),
+    path('employee-yearly-leave/', others_settings.EmployeeYearlyLeaveView.as_view(), name='employee_yearly_leave' )
+]
+
+

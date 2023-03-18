@@ -58,10 +58,10 @@
                 <div class="navbar-nav w-100">
                     <a href="{% url 'employee:employee' %}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-bars-progress"></i>Task</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-bars-progress me-2"></i>Task</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'employee:assigned_task' %}" class="dropdown-item"> <i class="fa-solid fa-bars-progress"></i> Assigned Task</a>
-                            <a href="{% url 'employee:completed_task' %}" class="dropdown-item"><i class="fa-solid fa-bars-progress"></i> Completed Task </a>
+                            <a href="{% url 'employee:assigned_task' %}" class="dropdown-item"> <i class="fa-solid fa-bars-progress me-2"></i> Assigned Task</a>
+                            <a href="{% url 'employee:completed_task' %}" class="dropdown-item"><i class="fa-solid fa-bars-progress me-2"></i> Completed Task </a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -72,12 +72,16 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Payroll</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item active">Blank Page</a>
+                            <a href="{% url 'employee:employee_monthly_salary' %}" class="dropdown-item"><i class="far fa-file-alt me-2"></i>Monthly Salary</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Others</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'employee:employee_monthly_holiday' %}" class="dropdown-item"><i class="far fa-file-alt me-2"></i>Holiday</a>
+                            <a href="{% url 'employee:employee_yearly_leave' %}" class="dropdown-item"><i class="far fa-file-alt me-2"></i>Leave</a>
                         </div>
                     </div>
                 </div>
@@ -104,7 +108,7 @@
                             <span class="d-none d-lg-inline-flex"> {{request.user.profile.first_name}} {{request.user.profile.last_name}} </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="{% url 'employee:profile_details_emplyee' request.user.id %}" class="dropdown-item">My Profile</a>
                             <a href="#" class="dropdown-item">Settings</a>
                             <a href="{% url 'accounts:logout' %}" class="dropdown-item">Log Out</a>
                         </div>
