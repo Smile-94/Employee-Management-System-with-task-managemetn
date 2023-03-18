@@ -41,4 +41,5 @@ class AdminView(LoginRequiredMixin, AdminPassesTestMixin, TemplateView):
         context["absence_today"] = (total_employee-attend_today)
         context["late_present"] = Attendance.objects.filter(date=date.today(),late_present__gt=allowd_late_time).count() 
         context["total_leave"] = total_leave
+        context["leave_applications"] = LeaveApplication.objects.filter(is_active=True, approved_status=True,  declined_status=True).order_by('-id')[:5]
         return context
