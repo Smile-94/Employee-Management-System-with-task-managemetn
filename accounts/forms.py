@@ -22,7 +22,7 @@ class EmployeeSignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password1', 'password2','is_employee','is_staff','is_receptonist')
+        fields = ('email', 'password1', 'password2','is_employee','is_staff')
 
 
 class ProfileForm(forms.ModelForm):
