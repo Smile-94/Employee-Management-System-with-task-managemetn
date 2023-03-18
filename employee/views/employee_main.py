@@ -28,9 +28,15 @@ class EmployeeHomeView( LoginRequiredMixin, EmployeePassesTestMixin, TemplateVie
         try:
             current_month_name = datetime.now().strftime('%B')
             current_year_name = datetime.now().strftime('%Y')
-            month_obj = PayrollMonth.objects.get(month=current_month_name, year=current_year_name)
-            from_date=month_obj.from_date
+            
             to_date =datetime.today().date()
+
+            today = datetime.now()
+            first_day_of_month = datetime(today.year, today.month, 1)
+            from_date = first_day_of_month.strftime('%Y-%m-%d')
+            print("From Date: ",from_date)
+
+    
             this_month_attendance = Attendance.objects.filter(attendance_of=self.request.user.employee_info, date__range=[from_date,to_date]).count()
             total_leave = LeaveApplication.objects.filter(application_of=self.request.user,is_active=True, approved_status=True, leave_from__range=[from_date,to_date]).count()
             permi_late_obje=LatePresentAndLeave.objects.last()
@@ -51,7 +57,7 @@ class EmployeeHomeView( LoginRequiredMixin, EmployeePassesTestMixin, TemplateVie
 
         context = super().get_context_data(**kwargs)
         context["title"] = "Employee Home"
-        context["total_attendance"] = this_month_attendance 
+        context["total_attendance"] = this_month_attendance
         context["current_month"] = f"{(current_month_name)},{current_year_name}"
         context["leave"] = total_leave
         context["leave_permited"] = permited_leave_days

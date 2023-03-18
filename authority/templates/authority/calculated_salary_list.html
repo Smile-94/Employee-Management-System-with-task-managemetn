@@ -54,7 +54,7 @@
                         {% else %}
                             N/A
                         {% endif %}</td>
-                    <td>{{salary.total_salary}}</td>
+                    <td>{{salary.total_salary |floatformat:3}}</td>
                     <td>
                         <a class="btn btn-sm btn-primary" href="{% url 'authority:monthly_salary_details' salary.id %}" role="button">Views</a>
                         <a class="btn btn-sm btn-primary" href="{% url 'authority:monthly_salary_update' salary.id %}" role="button">Edit</a>

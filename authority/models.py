@@ -31,10 +31,26 @@ class PayrollMonth(models.Model):
     from_date=models.DateField(auto_now=False, auto_now_add=False)
     to_date=models.DateField(auto_now=False, auto_now_add=False)
     total_days=models.IntegerField(default=0)
+    totla_offdays=models.IntegerField(default=0)
     active_status=models.BooleanField(default=True)
+
+    def get_weekly_off_days(self):
+        """
+        Returns a list of weekly off days falling within the payroll month's date range.
+        """
+        weekly_off_days = WeeklyOffDay.objects.filter(is_active=True)
+        off_days = []
+        for weekly_off_day in weekly_off_days:
+            for day in range((self.to_date - self.from_date).days + 1):
+                date = self.from_date + timedelta(day)
+                if date.strftime('%A') == weekly_off_day.first_day or \
+                        (weekly_off_day.second_day is not None and date.strftime('%A') == weekly_off_day.second_day):
+                    off_days.append(date)
+        return off_days
 
     def save(self, *args, **kwargs):
         self.total_days = (self.to_date - self.from_date).days + 1
+        self.totla_offdays = len(self.get_weekly_off_days())
         super(PayrollMonth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -237,11 +253,13 @@ class MonthlySalary(models.Model):
     total_house_rent = models.FloatField()
     total_mobile_allowance = models.FloatField()
     total_bonus = models.FloatField(default=0.0)
+    total_overtime_bonus = models.FloatField(default=0)
     late_present_diduct = models.FloatField(default=0.0)
     extra_leave_diduct = models.FloatField(default=0.0)
     total_diduct = models.FloatField(null=True)
     total_salary = models.FloatField(null=True)
     total_absence = models.IntegerField(null=True)
+    total_overtime = models.DurationField(null=True, blank=True)
     extra_late_present = models.IntegerField(null=True)
     is_active = models.BooleanField(default=True)
 

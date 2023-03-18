@@ -88,13 +88,13 @@
                 {% endif %}
                 <tr>
                     <td class="table-dark">Total Salary</td>
-                    <td class="table-success">  {{salary.total_salary}}/-</td>
+                    <td class="table-success">  {{salary.total_salary |floatformat:"3"}}/-</td>
                 </tr>
                 
                 
             </tbody>
         </table>
-        <h5 class="mb-4">Salary Diduction Details</h5>
+        <h5 class="mb-4">Other Details</h5>
         <table class="table table-bordered">
             <thead class="table-success">
                 <tr>
@@ -122,6 +122,14 @@
                 <tr>
                     <td class="table-dark">Total salary after deductions</td>
                     <td class="table-success"> {{total_salary_pay}} /-</td>
+                </tr>
+                <tr>
+                    <td>Over Time Bonus</td>
+                    <td> {{salary.total_overtime_bonus |floatformat:"3"}}/- ({{salary.total_overtime}} Housrs)</td>
+                </tr>
+                <tr>
+                    <td class="table-dark">Total payable</td>
+                    <td> {{total_salary_with_bonus |floatformat:"3"}}/-</td>
                 </tr>
                 
                 

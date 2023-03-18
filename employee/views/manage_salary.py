@@ -36,8 +36,10 @@ class MonthlySalaryDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, Deta
         query_obj = self.get_object()
         total_salary = query_obj.total_salary
         total_diduct = query_obj.total_diduct
+        over_time_bonus = query_obj.total_overtime_bonus
         context = super().get_context_data(**kwargs)
         context["title"] = "Monthly Salary Details" 
-        context["total_salary_pay"] =round(total_salary-0)
+        context["total_salary_pay"] =round(total_salary-total_diduct)
+        context["total_salary_with_bonus"] =round(total_salary+over_time_bonus-total_diduct)
 
         return context
