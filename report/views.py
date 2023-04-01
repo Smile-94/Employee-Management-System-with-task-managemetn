@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django_xhtml2pdf.views import PdfMixin
 
 # Create your views here.
 # for generating pdf
@@ -9,10 +10,10 @@ from django.conf import settings
 from authority.models import TaskAssigned
 
 
-class EmployeePdfView(DetailView):
+class TaskPdfView(PdfMixin, DetailView):
     model = TaskAssigned
     context_object_name = 'task'
-    template_name = "report/profile_pdf.html"
+    template_name = "report/task_report.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

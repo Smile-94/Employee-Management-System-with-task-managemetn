@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
+import datetime
 
 
 # Permission
@@ -112,6 +113,7 @@ class TaskCompletationReportView(LoginRequiredMixin, EmployeePassesTestMixin, Up
         if form.is_valid():
             form_obj=form.save(commit=False)
             form_obj.completion_status = True
+            form_obj.completion_date = datetime.date.today()
             form_obj.save()
             messages.success(self.request, "Task Completation Report Submited Successfully")
         return super().form_valid(form)
