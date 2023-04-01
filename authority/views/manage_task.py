@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
+import datetime 
 
 
 #permission class
@@ -13,6 +14,7 @@ from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 
 
 # models 
@@ -268,6 +270,23 @@ class TaskFeedbackView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Something wrong feedback added Faild")
         return super().form_invalid(form)
+
+
+class TaskStaticsView(LoginRequiredMixin, AdminPassesTestMixin, TemplateView):
+     template_name = 'authority/task_statics.html'
+
+     def get_context_data(self, **kwargs):
+         today = datetime.date.today()
+         complte_task = TaskAssigned.objects.filter(is_active=True, completion_status=True).count()
+         incomplete_task = TaskAssigned.objects.filter(task_of__deadline__lt=today, completion_status=False).count()
+         pending_task = TaskAssigned.objects.filter(task_of__deadline__gte=today, completion_status=False).count()
+         context = super().get_context_data(**kwargs)
+         context["title"] = "Task Chart"
+         context["complete_task"] = complte_task
+         context["incomplete_task"] = incomplete_task
+         context["Pending_task"] = pending_task
+         return context
+     
     
     
     

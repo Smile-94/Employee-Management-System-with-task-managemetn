@@ -58,10 +58,7 @@ class UserLoginView(LoginView):
                 login(self.request, user)
                 return HttpResponseRedirect(reverse('authority:authority', ))
             
-            elif user is not None and request_user.is_employee is True and request_user.is_receptonist is True:
-                login(self.request, user)
-                return HttpResponseRedirect(reverse('reception:reception_home'))
-
+            
             elif user is not None and request_user.is_employee is True:
                 login(self.request, user)
                 return HttpResponseRedirect(reverse('employee:employee'))

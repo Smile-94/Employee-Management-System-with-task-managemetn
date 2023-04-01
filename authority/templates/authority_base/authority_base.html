@@ -47,7 +47,7 @@
         <div class="sidebar bg-info pe-4 pb-3">
             <nav class="navbar bg-info navbar-info">
                 <a href="{% url 'authority:authority' %}" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-white"><i class="fa-solid fa-dollar-sign text-danger"></i>Payroll</h3>
+                    <h3 class="text-white"><i class="fa-solid fa-dollar-sign text-danger"></i>OMS</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -75,7 +75,6 @@
                             <a href="{% url 'authority:calculated_monthly_salary' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Calculated Salary</a>
                             <a href="{% url 'authority:add_payrollmonth' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Salary Month</a>
                             <a href="{% url 'authority:festival_bonus' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Festival Bonus</a>
-                            <a href="{% url 'authority:add_monthly_holiday' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Monthly Holiday</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -84,6 +83,7 @@
                             <a href="{% url 'authority:add_task' %}" class="dropdown-item"><i class="fa-solid fa-bars-progress me-2"></i>Task List</a>
                             <a href="{% url 'authority:task_employee_list' %}" class="dropdown-item"><i class="fa-solid fa-bars-progress me-2"></i>Assign Task</a>
                             <a href="{% url 'authority:assigned_task' %}" class="dropdown-item"><i class="fa-solid fa-bars-progress me-2"></i>Assigned Task</a>
+                            <a href="{% url 'authority:task_statics' %}" class="dropdown-item"><i class="fa-solid fa-bars-progress me-2"></i>Task Statics</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -93,6 +93,7 @@
                             <a href="{% url 'authority:accepted_leave_application_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Accpted Application</a>
                             <a href="{% url 'authority:rejected_leave_application_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Rejected Application</a>
                             <a href="{% url 'authority:add_leave_category' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Leave Category</a>
+                            <a href="{% url 'authority:add_monthly_holiday' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Monthly Holiday</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -134,8 +135,8 @@
                             <span class="d-none d-lg-inline-flex"> {{request.user.profile.first_name}} {{request.user.profile.last_name}} </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
+                            {% comment %} <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="#" class="dropdown-item">Settings</a> {% endcomment %}
                             <a href="{% url 'accounts:logout' %}" class="dropdown-item">Log Out</a>
                         </div>
                     </div>

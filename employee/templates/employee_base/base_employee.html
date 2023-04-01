@@ -43,7 +43,7 @@
         <div class="sidebar bg-info pe-4 pb-3">
             <nav class="navbar bg-info navbar-dark">
                 <a href="{% url 'employee:employee' %}" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-white"><i class="fa fa-hashtag me-2 text-danger"></i>EMS</h3>
+                    <h3 class="text-white"><i class="fa fa-hashtag me-2 text-danger"></i>OMS</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -69,6 +69,8 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'employee:apply_leave' %}" class="dropdown-item"><i class="fa-solid fa-envelope me-2"></i> Leave Application</a>
                             <a href="{% url 'employee:employee_attendance' %}" class="dropdown-item"><i class="fa-solid fa-envelope me-2"></i> Attendance </a>
+                            <a href="{% url 'employee:employee_monthly_holiday' %}" class="dropdown-item"><i class="fa-solid fa-envelope me-2"></i> Holiday</a>
+                            <a href="{% url 'employee:employee_yearly_leave' %}" class="dropdown-item"><i class="fa-solid fa-envelope me-2"></i> Leave</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -77,13 +79,13 @@
                             <a href="{% url 'employee:employee_monthly_salary' %}" class="dropdown-item"><i class="far fa-file-alt me-2"></i>Monthly Salary</a>
                         </div>
                     </div>
-                    <div class="nav-item dropdown">
+                    {% comment %} <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Others</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'employee:employee_monthly_holiday' %}" class="dropdown-item"><i class="far fa-file-alt me-2"></i>Holiday</a>
                             <a href="{% url 'employee:employee_yearly_leave' %}" class="dropdown-item"><i class="far fa-file-alt me-2"></i>Leave</a>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
             </nav>
         </div>
@@ -109,7 +111,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="{% url 'employee:profile_details_emplyee' request.user.id %}" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
+                            {% comment %} <a href="#" class="dropdown-item">Settings</a> {% endcomment %}
                             <a href="{% url 'accounts:logout' %}" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
@@ -146,11 +148,11 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
+                            &copy; <a href="#">Employee Management System</a>, All Right Reserved. 
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                            Designed By <a href="https://htmlcodex.com">IUBAT</a>
                         </div>
                     </div>
                 </div>
